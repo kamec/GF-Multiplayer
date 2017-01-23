@@ -1,8 +1,11 @@
-main('101111', '111101', '1000011');
+// main('101111', '111101', '1001001001001'); // ESP
+// main('101111', '111101', '1100000000000000000000000000000001'); //Trinom
+main('101111', '111101', '1000000000000000000010000000000001'); //Trinom
+// main('101111', '111101', '1100001'); //Trinom
 
 function main(a, b, p) {
     const MATRIX_SIZE = p.length;
-    const POLY_TYPE = recognisePolynomParameters(p);
+    const Q = initReductionMatrix(p);
 
 
     const A = splitIntoPowers(a);
@@ -12,9 +15,10 @@ function main(a, b, p) {
     const d = multiplyMatrixByVector(matrixL, B);
     const e = multiplyMatrixByVector(matrixU, B);
 
-    printStatus();
+    // printStatus();
 
     function printStatus() {
+        console.log();
         console.log(A);
         console.log(B);
         console.log();
@@ -27,27 +31,54 @@ function main(a, b, p) {
         console.log(e);
     }
 
-
-    function recognisePolynomParameters(p) {
+    function initReductionMatrix(p) {
         const meaningfulPowers = p.split('').reverse().map((el, idx) => {
             return {el: parseInt(el), index: idx}
         }).filter(el => el.el === 1);
 
         return buildReductionMatrix({
             m: meaningfulPowers.pop().index,
-            k: meaningfulPowers.filter(el => el.index !== 0).map(el => el.index),
-            s: this.m / p.length
+            k: meaningfulPowers.slice(1).map(el => el.index)
         });
     }
 
-    function buildReductionMatrix({m: m, k: k, s: s = 0}) {
+    function buildReductionMatrix({m: m, k: k}) {
+        k.push(0);
+        const s = m / (k.length);
         console.log(m, k, s);
-        const Q = createMatrix(m - 1).pop();
+        if (Number.isInteger(s) && k.length > 3) {
+            return buildMatrixForESP(m, s);
+        }
+        const Q = createMatrix(m - 1);
+        Q.pop();
         for (let row = 0; row < Q.length; row++) {
             for (let col = 0; col < Q[0].length; col++) {
-
+                if (k.some(k => {
+                        return col - row === k || row >= m - k && (row - col) % (m - k) === 0
+                    })
+                ) {
+                    Q[row][col] = 1;
+                }
             }
         }
+        console.log(Q.map(row => row.join(' ')).join('\n'));
+        return Q;
+    }
+
+    function buildMatrixForESP(m, s) {
+        const Q = createMatrix(m - 1);
+        Q.pop();
+        for (let row = 0; row < Q.length; row++) {
+            for (let col = 0; col < Q[0].length; col++) {
+                if ((col - row) % s === 0 && row < s) {
+                    Q[row][col] = 1;
+                }
+                if (row >= s && row - col === s) {
+                    Q[row][col] = 1;
+                }
+            }
+        }
+        console.log(Q.map(row => row.join('')).join('\n'));
         return Q;
     }
 
@@ -73,7 +104,7 @@ function main(a, b, p) {
     }
 
     function createMatrix(m) {
-        return new Array(m).fill(0).map(el => new Array(m).fill(0));
+        return new Array(m).fill(0).map(el => new Array(m).fill('-'));
     }
 
     function multiplyMatrixByVector(matrix, vector) {
