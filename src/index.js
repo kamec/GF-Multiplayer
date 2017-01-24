@@ -1,11 +1,11 @@
-// main('101111', '111101', '1111111111111111111111111111111111'); // ESP
+// main('101111', '111101', '111111111111111111111111111111111'); // ESP
 // main('101111', '111101', '1000000000010000000000100000000001'); // ESP
-// main('101111', '111101', '1000000000000000100000000000001'); // ESP
-// main('101111', '111101', '1000000000000000000000000000000011'); //Trinom
-// main('101111', '111101', '1000000000000000000010000000000001'); //Trinom
-main('101111', '111101', '1000000001000000000000000000000001'); //Trinom
-main('101111', '111101', '1010000000000000000000000000000001'); //Trinom
-main('101111', '111101', '1100000000000000000000000000000001'); //Trinom
+// main('101111', '111101', '100000000000000001000000000000001'); // ESP
+main('101111', '111101', '100000000000000000000000000000011'); //Trinom
+main('101111', '111101', '100000000000000000010000000000001'); //Trinom
+main('101111', '111101', '100000000100000000000000000000001'); //Trinom
+main('101111', '111101', '101000000000000000000000000000001'); //Trinom
+main('101111', '111101', '110000000000000000000000000000001'); //Trinom
 // main('101111', '111101', '1100001'); //Trinom
 
 function main(a, b, p) {
@@ -21,7 +21,7 @@ function main(a, b, p) {
     const d = multiplyMatrixByVector(matrixL, B);
     const e = multiplyMatrixByVector(matrixU, B);
 
-    printStatus();
+    // printStatus();
 
     function printMatrix(M) {
         console.log(M.map(row => row.join(' ')).join('\n'));
@@ -57,21 +57,22 @@ function main(a, b, p) {
     }
 
     function buildReductionMatrix({m: m, k: k}) {
-        const s = m / (k.length);
+        const s = k.reduce(() => {
+        });
         console.log(m, k.join(' '), s);
         if (Number.isInteger(s)) {
-            return buildMatrixForESP(m, s);
+            // return buildMatrixForESP(m, s);
         }
-        const Q = createMatrix(m - 1);
+        const Q = createMatrix(m);
         Q.pop();
+        console.log(Q.length, Q[0].length);
         for (let row = 0; row < Q.length; row++) {
             for (let col = 0; col < Q[0].length; col++) {
-                k.forEach((k => {
-                    if ((col - row) % (m - k) === 0 && col - row <= 0 || col - k - row % (m - k) === 0) {
-
+                k.forEach(k => {
+                    if ((col - row) % (m - k) === 0 && col - row <= 0 || col - k - row % (m - k) === 0 && col - row !== 0) {
                         Q[row][col] = 1;
                     }
-                }));
+                });
             }
         }
 
@@ -79,7 +80,7 @@ function main(a, b, p) {
     }
 
     function buildMatrixForESP(m, s) {
-        const Q = createMatrix(m - 1);
+        const Q = createMatrix(m);
         Q.pop();
         for (let row = 0; row < Q.length; row++) {
             for (let col = 0; col < Q[0].length; col++) {
@@ -113,7 +114,7 @@ function main(a, b, p) {
     }
 
     function createMatrix(m) {
-        return new Array(m).fill(0).map(el => new Array(m).fill(0));
+        return new Array(m).fill(0).map(el => new Array(m).fill('-'));
     }
 
     function multiplyMatrixByVector(matrix, vector) {
