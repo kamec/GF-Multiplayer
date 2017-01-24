@@ -1,6 +1,6 @@
-// main('101111', '111101', '1111111111111111111111111111111111'); // ESP
-// main('101111', '111101', '1000000000010000000000100000000001'); // ESP
-// main('101111', '111101', '1000000000000000100000000000001'); // ESP
+main('101111', '111101', '1111111111111111111111111111111111'); // ESP
+main('101111', '111101', '1000000000010000000000100000000001'); // ESP
+main('101111', '111101', '1000000000000000100000000000001'); // ESP
 main('101111', '111101', '1000000000000000000000000000000011'); //Trinom
 main('101111', '111101', '1000000000000000000010000000000001'); //Trinom
 main('101111', '111101', '1000000001000000000000000000000001'); //Trinom
@@ -43,14 +43,12 @@ function main(a, b, p) {
 
         return buildReductionMatrix({
             m: meaningfulPowers.pop().index,
-            k: meaningfulPowers.slice(1).map(el => el.index)
+            k: meaningfulPowers.map(el => el.index)
         });
     }
 
     function buildReductionMatrix({m: m, k: k}) {
-        const opts = [].concat(k);
-        opts.unshift(0);
-        const s = m / (opts.length);
+        const s = m / (k.length);
         console.log(m, k.join(' '), s);
         if (Number.isInteger(s)) {
             return buildMatrixForESP(m, s);
@@ -59,8 +57,8 @@ function main(a, b, p) {
         Q.pop();
         for (let row = 0; row < Q.length; row++) {
             for (let col = 0; col < Q[0].length; col++) {
-                opts.forEach((basis => {
-                    if ((col - row) % (m - basis) === 0 && col - row <= 0 || col - basis - row % (m - basis) === 0) {
+                k.forEach((k => {
+                    if ((col - row) % (m - k) === 0 && col - row <= 0 || col - k - row % (m - k) === 0) {
                         Q[row][col] = 1;
                     }
                 }));
@@ -91,8 +89,8 @@ function main(a, b, p) {
         const matrixL = createMatrix(MATRIX_SIZE);
         const matrixU = createMatrix(MATRIX_SIZE);
 
-        for (let col = 0; col < MATRIX_SIZE; col++) {
-            for (let row = 0; row < MATRIX_SIZE; row++) {
+        for (let row = 0; row < MATRIX_SIZE; row++) {
+            for (let col = 0; col < MATRIX_SIZE; col++) {
                 if (row >= col) {
                     matrixL[row][col] = splited[row - col] || 0;
                 } else {
