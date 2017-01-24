@@ -1,11 +1,16 @@
-// main('101111', '111101', '1001001001001'); // ESP
-// main('101111', '111101', '1100000000000000000000000000000001'); //Trinom
+// main('101111', '111101', '1111111111111111111111111111111111'); // ESP
+// main('101111', '111101', '1000000000010000000000100000000001'); // ESP
+// main('101111', '111101', '1000000000000000100000000000001'); // ESP
+main('101111', '111101', '1000000000000000000000000000000011'); //Trinom
 main('101111', '111101', '1000000000000000000010000000000001'); //Trinom
+main('101111', '111101', '1000000001000000000000000000000001'); //Trinom
+main('101111', '111101', '1100000000000000000000000000000001'); //Trinom
 // main('101111', '111101', '1100001'); //Trinom
 
 function main(a, b, p) {
     const MATRIX_SIZE = p.length;
     const Q = initReductionMatrix(p);
+    console.log(Q.map(row => row.join(' ')).join('\n'));
 
 
     const A = splitIntoPowers(a);
@@ -43,25 +48,25 @@ function main(a, b, p) {
     }
 
     function buildReductionMatrix({m: m, k: k}) {
-        k.push(0);
-        const s = m / (k.length);
-        console.log(m, k, s);
-        if (Number.isInteger(s) && k.length > 3) {
+        const opts = [].concat(k);
+        opts.unshift(0);
+        const s = m / (opts.length);
+        console.log(m, k.join(' '), s);
+        if (Number.isInteger(s)) {
             return buildMatrixForESP(m, s);
         }
         const Q = createMatrix(m - 1);
         Q.pop();
         for (let row = 0; row < Q.length; row++) {
             for (let col = 0; col < Q[0].length; col++) {
-                if (k.some(k => {
-                        return col - row === k || row >= m - k && (row - col) % (m - k) === 0
-                    })
-                ) {
-                    Q[row][col] = 1;
-                }
+                opts.forEach((basis => {
+                    if ((col - row) % (m - basis) === 0 && col - row <= 0 || col - basis - row % (m - basis) === 0) {
+                        Q[row][col] = 1;
+                    }
+                }));
             }
         }
-        console.log(Q.map(row => row.join(' ')).join('\n'));
+
         return Q;
     }
 
@@ -70,15 +75,11 @@ function main(a, b, p) {
         Q.pop();
         for (let row = 0; row < Q.length; row++) {
             for (let col = 0; col < Q[0].length; col++) {
-                if ((col - row) % s === 0 && row < s) {
-                    Q[row][col] = 1;
-                }
-                if (row >= s && row - col === s) {
+                if (row < s && (col - row) % s === 0 || row >= s && row - col === s) {
                     Q[row][col] = 1;
                 }
             }
         }
-        console.log(Q.map(row => row.join('')).join('\n'));
         return Q;
     }
 
