@@ -1,17 +1,18 @@
-main('101111', '111101', '1111111111111111111111111111111111'); // ESP
-main('101111', '111101', '1000000000010000000000100000000001'); // ESP
-main('101111', '111101', '1000000000000000100000000000001'); // ESP
-main('101111', '111101', '1000000000000000000000000000000011'); //Trinom
-main('101111', '111101', '1000000000000000000010000000000001'); //Trinom
+// main('101111', '111101', '1111111111111111111111111111111111'); // ESP
+// main('101111', '111101', '1000000000010000000000100000000001'); // ESP
+// main('101111', '111101', '1000000000000000100000000000001'); // ESP
+// main('101111', '111101', '1000000000000000000000000000000011'); //Trinom
+// main('101111', '111101', '1000000000000000000010000000000001'); //Trinom
 main('101111', '111101', '1000000001000000000000000000000001'); //Trinom
+main('101111', '111101', '1010000000000000000000000000000001'); //Trinom
 main('101111', '111101', '1100000000000000000000000000000001'); //Trinom
 // main('101111', '111101', '1100001'); //Trinom
 
 function main(a, b, p) {
     const MATRIX_SIZE = p.length;
     const Q = initReductionMatrix(p);
-    console.log(Q.map(row => row.join(' ')).join('\n'));
 
+    printMatrix(Q);
 
     const A = splitIntoPowers(a);
     const B = splitIntoPowers(b);
@@ -20,20 +21,28 @@ function main(a, b, p) {
     const d = multiplyMatrixByVector(matrixL, B);
     const e = multiplyMatrixByVector(matrixU, B);
 
-    // printStatus();
+    printStatus();
+
+    function printMatrix(M) {
+        console.log(M.map(row => row.join(' ')).join('\n'));
+    }
+
+    function printArray(A) {
+        console.log(A.join(' '));
+    }
 
     function printStatus() {
         console.log();
-        console.log(A);
-        console.log(B);
+        printArray(A);
+        printArray(B);
         console.log();
-        console.log(matrixL);
+        printMatrix(matrixL);
         console.log();
-        console.log(matrixU);
+        printMatrix(matrixU);
         console.log();
-        console.log(d);
+        printArray(d);
         console.log();
-        console.log(e);
+        printArray(e);
     }
 
     function initReductionMatrix(p) {
@@ -59,6 +68,7 @@ function main(a, b, p) {
             for (let col = 0; col < Q[0].length; col++) {
                 k.forEach((k => {
                     if ((col - row) % (m - k) === 0 && col - row <= 0 || col - k - row % (m - k) === 0) {
+
                         Q[row][col] = 1;
                     }
                 }));
@@ -103,7 +113,7 @@ function main(a, b, p) {
     }
 
     function createMatrix(m) {
-        return new Array(m).fill(0).map(el => new Array(m).fill('-'));
+        return new Array(m).fill(0).map(el => new Array(m).fill(0));
     }
 
     function multiplyMatrixByVector(matrix, vector) {
