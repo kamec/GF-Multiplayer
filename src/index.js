@@ -6,6 +6,7 @@ main('101111', '111101', '100000000000000000010000000000001'); //Trinom
 main('101111', '111101', '100000000100000000000000000000001'); //Trinom
 main('101111', '111101', '101000000000000000000000000000001'); //Trinom
 main('101111', '111101', '110000000000000000000000000000001'); //Trinom
+main('101111', '111101', '100000000000000000010010001000001'); //Pentanom
 // main('101111', '111101', '1100001'); //Trinom
 
 function main(a, b, p) {
@@ -23,28 +24,6 @@ function main(a, b, p) {
 
     // printStatus();
 
-    function printMatrix(M) {
-        console.log(M.map(row => row.join(' ')).join('\n'));
-    }
-
-    function printArray(A) {
-        console.log(A.join(' '));
-    }
-
-    function printStatus() {
-        console.log();
-        printArray(A);
-        printArray(B);
-        console.log();
-        printMatrix(matrixL);
-        console.log();
-        printMatrix(matrixU);
-        console.log();
-        printArray(d);
-        console.log();
-        printArray(e);
-    }
-
     function initReductionMatrix(p) {
         const meaningfulPowers = p.split('').reverse().map((el, idx) => {
             return {el: parseInt(el), index: idx}
@@ -57,12 +36,32 @@ function main(a, b, p) {
     }
 
     function buildReductionMatrix({m: m, k: k}) {
-        const s = k.reduce(() => {
-        });
+        const s = calculateDiff(m, k);
         console.log(m, k.join(' '), s);
         if (Number.isInteger(s)) {
-            // return buildMatrixForESP(m, s);
+            return buildReductionMatrixForESP(m, s);
         }
+        return buildGenericReductionMatrix(m, k);
+    }
+
+    function calculateDiff(m, k) {
+        return 0.5; //TODO: implement real algorithm
+    }
+
+    function buildReductionMatrixForESP(m, s) {
+        const Q = createMatrix(m);
+        Q.pop();
+        for (let row = 0; row < Q.length; row++) {
+            for (let col = 0; col < Q[0].length; col++) {
+                if (row < s && (col - row) % s === 0 || row >= s && row - col === s) {
+                    Q[row][col] = 1;
+                }
+            }
+        }
+        return Q;
+    }
+
+    function buildGenericReductionMatrix(m, k) { //TODO: fix conditions
         const Q = createMatrix(m);
         Q.pop();
         console.log(Q.length, Q[0].length);
@@ -76,19 +75,6 @@ function main(a, b, p) {
             }
         }
 
-        return Q;
-    }
-
-    function buildMatrixForESP(m, s) {
-        const Q = createMatrix(m);
-        Q.pop();
-        for (let row = 0; row < Q.length; row++) {
-            for (let col = 0; col < Q[0].length; col++) {
-                if (row < s && (col - row) % s === 0 || row >= s && row - col === s) {
-                    Q[row][col] = 1;
-                }
-            }
-        }
         return Q;
     }
 
@@ -123,5 +109,27 @@ function main(a, b, p) {
 
     function multiplyVectorByScalar(vector, scalar) {
         return vector.reduce((prev, curr) => prev ^ (curr & scalar), 0);
+    }
+
+    function printMatrix(M) {
+        console.log(M.map(row => row.join(' ')).join('\n'));
+    }
+
+    function printArray(A) {
+        console.log(A.join(' '));
+    }
+
+    function printStatus() {
+        console.log();
+        printArray(A);
+        printArray(B);
+        console.log();
+        printMatrix(matrixL);
+        console.log();
+        printMatrix(matrixU);
+        console.log();
+        printArray(d);
+        console.log();
+        printArray(e);
     }
 }
