@@ -1,13 +1,13 @@
-// main('101111', '111101', '111111111111111111111111111111111'); // ESP
-// main('101111', '111101', '1000000000010000000000100000000001'); // ESP
-// main('101111', '111101', '100000000000000001000000000000001'); // ESP
-// main('101111', '111101', '100000000000000000000000000000011'); //Trinom
-// main('101111', '111101', '100000000000000000010000000000001'); //Trinom
+main('101111', '111101', '111111111111111111111111111111111'); // ESP
+main('101111', '111101', '1000000000010000000000100000000001'); // ESP
+main('101111', '111101', '100000000000000010000000000000001'); // ESP
+main('101111', '111101', '100000000000000000000000000000011'); //Trinom
+main('101111', '111101', '100000000000000000010000000000001'); //Trinom
 main('101111', '111101', '100000000100000000000000000000001'); //Trinom
-// main('101111', '111101', '101000000000000000000000000000001'); //Trinom
-// main('101111', '111101', '110000000000000000000000000000001'); //Trinom
+main('101111', '111101', '101000000000000000000000000000001'); //Trinom
+main('101111', '111101', '110000000000000000000000000000001'); //Trinom
 main('101111', '111101', '100000000000000000010010001000001'); //Pentanom
-// main('101111', '111101', '1100001'); //Trinom
+main('101111', '111101', '1100001'); //Trinom
 
 function main(a, b, p) {
     const MATRIX_SIZE = p.length;
@@ -45,7 +45,18 @@ function main(a, b, p) {
     }
 
     function calculateDiff(m, k) {
-        return 0.5; //TODO: implement real algorithm
+        const powers = [].concat(k);
+        powers.push(m);
+        let s = Math.abs(powers[0] - powers[1]);
+        for (let i = 1; i < powers.length - 1; i++) {
+            const diff = Math.abs(powers[i] - powers[i + 1]);
+            if (diff === s) {
+                continue;
+            }
+            return s / diff;
+        }
+
+        return s; //TODO: implement real algorithm
     }
 
     function buildReductionMatrixForESP(m, s) {
@@ -54,7 +65,7 @@ function main(a, b, p) {
         for (let row = 0; row < Q.length; row++) {
             for (let col = 0; col < Q[0].length; col++) {
                 if (row < s && (col - row) % s === 0 || row >= s && row - col === s) {
-                    Q[row][col] = 1;
+                    Q[row][col] = Q[row][col] ^ 1;
                 }
             }
         }
@@ -71,10 +82,12 @@ function main(a, b, p) {
                     k.forEach(kX => {
                         if ((y - x) % (m - kX) === 0 && y > x && x + basis < Q[0].length) {
                             Q[y][(x + basis) % m] = Number.isInteger(Q[y][(x + basis) % m]) ? Q[y][(x + basis) % m] ^ 1 : 1;
+                            // Q[y][(x + basis) % m] = Q[y][(x + basis) % m] ^ 1;
                         }
                     });
-                    if ((x - y) === 0 &&  x - y >= 0 && x + basis < Q[0].length) {
+                    if ((x - y) === 0 && x - y >= 0 && x + basis < Q[0].length) {
                         Q[y][(x + basis) % m] = Number.isInteger(Q[y][(x + basis) % m]) ? Q[y][(x + basis) % m] ^ 1 : 1;
+                        // Q[y][(x + basis) % m] = Q[y][(x + basis) % m] ^ 1;
                     }
                 });
             }
