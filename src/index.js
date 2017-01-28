@@ -1,19 +1,17 @@
-main('101111', '111101', '111111111111111111111111111111111'); // ESP
-main('101111', '111101', '1000000000010000000000100000000001'); // ESP
-main('101111', '111101', '100000000000000010000000000000001'); // ESP
-main('101111', '111101', '100000000000000000000000000000011'); //Trinom
-main('101111', '111101', '100000000000000000010000000000001'); //Trinom
-main('101111', '111101', '100000000100000000000000000000001'); //Trinom
-main('101111', '111101', '101000000000000000000000000000001'); //Trinom
-main('101111', '111101', '110000000000000000000000000000001'); //Trinom
-main('101111', '111101', '100000000000000000010010001000001'); //Pentanom
-main('101111', '111101', '1100001'); //Trinom
+// main('101111', '111101', '111111111111111111111111111111111'); // ESP
+// main('101111', '111101', '1000000000010000000000100000000001'); // ESP
+// main('101111', '111101', '100000000000000010000000000000001'); // ESP
+// main('101111', '111101', '100000000000000000000000000000011'); //Trinom
+// main('101111', '111101', '100000000000000000010000000000001'); //Trinom
+main('10111101010101010101', '01010101010101111101', '100000000100000000000000000000001'); //Trinom
+// main('101111', '111101', '101000000000000000000000000000001'); //Trinom
+// main('101111', '111101', '110000000000000000000000000000001'); //Trinom
+// main('101111', '111101', '100000000000000000010010001000001'); //Pentanom
+// main('101111', '111101', '1100001'); //Trinom
 
 function main(a, b, p) {
-    const MATRIX_SIZE = p.length;
+    const MATRIX_SIZE = p.length - 1;
     const Q = initReductionMatrix(p);
-
-    printMatrix(Q);
 
     const A = splitIntoPowers(a);
     const B = splitIntoPowers(b);
@@ -22,7 +20,9 @@ function main(a, b, p) {
     const d = multiplyMatrixByVector(matrixL, B);
     const e = multiplyMatrixByVector(matrixU, B);
 
-    // printStatus();
+    const c = xorVectors(d, multiplyMatrixByVector(transposeMatrix(Q), e));
+
+    printStatus();
 
     function initReductionMatrix(p) {
         const meaningfulPowers = p.split('').reverse().map((el, idx) => {
@@ -56,7 +56,7 @@ function main(a, b, p) {
             return s / diff;
         }
 
-        return s; //TODO: implement real algorithm
+        return s;
     }
 
     function buildReductionMatrixForESP(m, s) {
@@ -81,13 +81,13 @@ function main(a, b, p) {
                 k.forEach(basis => {
                     k.forEach(kX => {
                         if ((y - x) % (m - kX) === 0 && y > x && x + basis < Q[0].length) {
-                            Q[y][(x + basis) % m] = Number.isInteger(Q[y][(x + basis) % m]) ? Q[y][(x + basis) % m] ^ 1 : 1;
-                            // Q[y][(x + basis) % m] = Q[y][(x + basis) % m] ^ 1;
+                            // Q[y][(x + basis) % m] = Number.isInteger(Q[y][(x + basis) % m]) ? Q[y][(x + basis) % m] ^ 1 : 1;
+                            Q[y][(x + basis) % m] = Q[y][(x + basis) % m] ^ 1;
                         }
                     });
                     if ((x - y) === 0 && x - y >= 0 && x + basis < Q[0].length) {
-                        Q[y][(x + basis) % m] = Number.isInteger(Q[y][(x + basis) % m]) ? Q[y][(x + basis) % m] ^ 1 : 1;
-                        // Q[y][(x + basis) % m] = Q[y][(x + basis) % m] ^ 1;
+                        // Q[y][(x + basis) % m] = Number.isInteger(Q[y][(x + basis) % m]) ? Q[y][(x + basis) % m] ^ 1 : 1;
+                        Q[y][(x + basis) % m] = Q[y][(x + basis) % m] ^ 1;
                     }
                 });
             }
@@ -118,7 +118,8 @@ function main(a, b, p) {
     }
 
     function createMatrix(m) {
-        return new Array(m).fill(0).map(el => new Array(m).fill('-'));
+        // return new Array(m).fill(0).map(el => new Array(m).fill('-'));
+        return new Array(m).fill(0).map(el => new Array(m).fill(0));
     }
 
     function multiplyMatrixByVector(matrix, vector) {
@@ -129,25 +130,37 @@ function main(a, b, p) {
         return vector.reduce((prev, curr) => prev ^ (curr & scalar), 0);
     }
 
+    function transposeMatrix(M) {
+        return M[0].map((col, i) => M.map((row) => row[i]));
+    }
+
+    function xorVectors(v1, v2) {
+        return v1.map((el, idx) => el ^ v2[idx]);
+    }
+
     function printMatrix(M) {
         console.log(M.map(row => row.join(' ')).join('\n'));
     }
 
-    function printArray(A) {
+    function printVector(A) {
         console.log(A.join(' '));
     }
 
     function printStatus() {
+        printMatrix(Q);
         console.log();
-        printArray(A);
-        printArray(B);
+        printVector(A);
+        printVector(B);
         console.log();
         printMatrix(matrixL);
         console.log();
         printMatrix(matrixU);
         console.log();
-        printArray(d);
+        printVector(d);
         console.log();
-        printArray(e);
+        printVector(e);
+        console.log();
+        console.log();
+        printVector(c);
     }
 }
