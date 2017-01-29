@@ -1,14 +1,4 @@
-module.exports = {
-// main('101111', '111101', '111111111111111111111111111111111'); // ESP
-// main('101111', '111101', '1000000000010000000000100000000001'); // ESP
-// main('101111', '111101', '100000000000000010000000000000001'); // ESP
-// main('101111', '111101', '100000000000000000000000000000011'); //Trinom
-// main('101111', '111101', '100000000000000000010000000000001'); //Trinom
-// main('101111', '111101', '100000000100000000000000000000001'); //Trinom
-// main('101111', '111101', '101000000000000000000000000000001'); //Trinom
-// main('101111', '111101', '110000000000000000000000000000001'); //Trinom
-// main('101111', '111101', '100000000000000000010010001000001'); //Pentanom
-// main('101111', '111101', '1100001'); //Trinom
+const multiplier = {
 
     _MATRIX_SIZE: 0,
 
@@ -31,7 +21,9 @@ module.exports = {
         const d = this.multiplyMatrixByVector(matrixL, B);
         const e = this.multiplyMatrixByVector(matrixU, B);
 
-        const c = this.xorVectors(d, this.multiplyMatrixByVector(this.transposeMatrix(Q), e));
+
+        const V2 = this.multiplyMatrixByVector(this.transposeMatrix(Q), e);
+        const c = this.xorVectors(d, V2);
 
         this.printStatus(Q, A, B, matrixL, matrixU, d, e, c);
     },
@@ -134,11 +126,11 @@ module.exports = {
     },
 
     multiplyMatrixByVector: function (matrix, vector) {
-        return matrix.map((row, idx) => this.multiplyVectorByScalar(row, vector[idx]));
+        return matrix.map(row => this.multiplyVectorByVector(row, vector));
     },
 
-    multiplyVectorByScalar: function (vector, scalar) {
-        return vector.reduce((prev, curr) => prev ^ (curr & scalar), 0);
+    multiplyVectorByVector: function (V1, V2) {
+        return V1.reduce((prev, curr, idx) => prev ^ (curr & V2[idx]), 0);
     },
 
     transposeMatrix: function (M) {
@@ -175,3 +167,16 @@ module.exports = {
         this.printVector(c);
     }
 };
+
+module.exports = multiplier;
+// main('101111', '111101', '111111111111111111111111111111111'); // ESP
+// main('101111', '111101', '1000000000010000000000100000000001'); // ESP
+// main('101111', '111101', '100000000000000010000000000000001'); // ESP
+// main('101111', '111101', '100000000000000000000000000000011'); //Trinom
+// main('101111', '111101', '100000000000000000010000000000001'); //Trinom
+// main('101111', '111101', '100000000100000000000000000000001'); //Trinom
+// main('101111', '111101', '101000000000000000000000000000001'); //Trinom
+// main('101111', '111101', '110000000000000000000000000000001'); //Trinom
+// main('101111', '111101', '100000000000000000010010001000001'); //Pentanom
+// multiplier.main('100101', '101001', '1000011'); //Trinom
+

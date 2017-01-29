@@ -24,7 +24,7 @@ module.exports = {
         generatedCode += generateSplitting('a', size);
         generatedCode += generateSplitting('b', size);
         generatedCode += generateTeplitsMatricesBuilding(size);
-        generatedCode += generateResultVectorCalculation(size);
+        generatedCode += generateResultVectorCalculation(size, p);
         generatedCode += generateMultiplicationResult(size);
 
         return generatedCode;
@@ -56,7 +56,7 @@ module.exports = {
             return result += '\r\n';
         }
 
-        function generateResultVectorCalculation(size) {
+        function generateResultVectorCalculation(size, p) {
             const QT = jsMultiplier.transposeMatrix(jsMultiplier.initReductionMatrix(p));
             const preparedMatrix = QT.map(V => V.map((el, idx) => {
                 return {el: el, idx: idx}
