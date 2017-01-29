@@ -1,3 +1,4 @@
 const generator = require('./generatorC');
 
-generator.main();
+const p = '1000011';
+generator.main(p);

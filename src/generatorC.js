@@ -2,8 +2,7 @@ const fs = require('fs');
 const jsMultiplier = require('./jsMultiplier');
 
 module.exports = {
-    main: function () {
-        const p = '1000011';
+    main: function (p) {
         fs.writeFile(`${__dirname}/../tmp/test.c`, this.generateCode(p), err => {
             if (err) {
                 console.log(err);
@@ -11,10 +10,9 @@ module.exports = {
                         if (err) console.log(err)
                     }
                 );
-                this.main();
+                this.main(p);
             }
             console.log('Done');
-            jsMultiplier.main('100101', '101001', p);
         });
     },
 
@@ -78,7 +76,7 @@ module.exports = {
                 result += `${i === 0 ? '' : '^'}c${i}`;
             }
             result += ')\r\n';
-            result += `int main(int argc, char *argv[])\r\n{\r\n\tchar *pCh;\r\n\tunsigned int A = strtoul(argv[1], &pCh, 2);\r\n\tunsigned int B = strtoul(argv[2], &pCh, 2);\r\n\tunsigned int C;\r\n\tC = cmul;\r\n\tprintf("%\\n", C);\r\n\treturn C;\r\n}\r\n`;
+            result += `int main(int argc, char *argv[])\r\n{\r\n\tchar *pCh;\r\n\tunsigned int A = strtoul(argv[1], &pCh, 2);\r\n\tunsigned int B = strtoul(argv[2], &pCh, 2);\r\n\tunsigned int C;\r\n\tC = cmul;\r\n\tprintf("%d\\r\\n", C);\r\n\treturn C;\r\n}`;
 
             return result += '\r\n';
         }
