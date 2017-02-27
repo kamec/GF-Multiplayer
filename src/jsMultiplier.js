@@ -146,19 +146,19 @@ const multiplier = {
   printStatus: function (Q = [[]], A = [], B = [], matrixL = [[]], matrixU = [[]], d = [], e = [], c = []) {
     this.printMatrix(Q);
     console.log();
-    // this.printVector(A);
-    // this.printVector(B);
-    // console.log();
-    // this.printMatrix(matrixL);
-    // console.log();
-    // this.printMatrix(matrixU);
-    // console.log();
-    // this.printVector(d);
-    // console.log();
-    // this.printVector(e);
-    // console.log();
-    // console.log();
-    // this.printVector(c);
+    this.printVector(A);
+    this.printVector(B);
+    console.log();
+    this.printMatrix(matrixL);
+    console.log();
+    this.printMatrix(matrixU);
+    console.log();
+    this.printVector(d);
+    console.log();
+    this.printVector(e);
+    console.log();
+    console.log();
+    this.printVector(c);
   }
 };
 //
