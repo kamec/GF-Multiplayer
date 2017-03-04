@@ -1,22 +1,12 @@
 const multiplier = {
 
-  _MATRIX_SIZE: 0,
-
-  setMatrixSize: function(size) {
-    this._MATRIX_SIZE = size;
-  },
-
-  getMatrixSIze: function() {
-    return this._MATRIX_SIZE;
-  },
-
   main: function(a, b, p) {
-    this._MATRIX_SIZE = p.length - 1;
+    MATRIX_SIZE = p.length - 1;
     const Q = this.initReductionMatrix(p);
 
-    const A = this.splitIntoPowers(a);
-    const B = this.splitIntoPowers(b);
-    const {matrixL, matrixU} = this.buildTeplitsMatrices(A);
+    const A = this.splitIntoPowers(a, MATRIX_SIZE);
+    const B = this.splitIntoPowers(b, MATRIX_SIZE);
+    const {matrixL, matrixU} = this.buildTeplitsMatrices(A, MATRIX_SIZE);
 
     const d = this.multiplyMatrixByVector(matrixL, B);
     const e = this.multiplyMatrixByVector(matrixU, B);
@@ -28,15 +18,11 @@ const multiplier = {
   },
 
   initReductionMatrix: function(p) {
-    const meaningfulPowers = p.split('').reverse().map((el, idx) => ({el: parseInt(el), index: idx})).filter(el => el.el === 1);
-
-    return this.buildReductionMatrix({
-      m: meaningfulPowers.pop().index,
-      k: meaningfulPowers.map(el => el.index)
-    });
+    const meaningfulPowers = Array.from(p).reverse().map((el, idx) => el === '1' ? idx : el).filter(el => el !== '0');
+    return this.buildReductionMatrix(meaningfulPowers.pop(), meaningfulPowers);
   },
 
-  buildReductionMatrix: function({m: m, k: k}) {
+  buildReductionMatrix: function(m, k) {
     const s = this.calculateDiff(m, k);
     // console.log(k.join(' '), m, s);
     return Number.isInteger(s)
@@ -45,8 +31,7 @@ const multiplier = {
   },
 
   calculateDiff: function(m, k) {
-    const powers = [].concat(k);
-    powers.push(m);
+    const powers = [].concat(k).concat(m);
     let s = Math.abs(powers[0] - powers[1]);
     for (let i = 1; i < powers.length - 1; i++) {
       const diff = Math.abs(powers[i] - powers[i + 1]);
@@ -74,40 +59,42 @@ const multiplier = {
   buildGenericReductionMatrix: function(m, k) {
     const Q = this.createMatrix(m);
     Q.pop();
+    // const points = [];
+    k.push(m);
     k.forEach(ki => k.forEach(kj => {
-      if (kj === 0) {
-        this.drawDiagonal(ki, kj, Q)
-      }
-      for (let i = 1; i * (m - kj) < m - 1; i++) {
-        console.log(ki, (m - kj) * i, i);
-        this.drawDiagonal(ki, (m - kj) * i, Q)
-      }
+      let r = m - kj;
+      do {
+        // points.push({y: kj, x: ki, r: r});
+        this.drawDiagonal(ki, r, Q);
+        r += m - kj;
+      } while (r < m - 1 && kj !== m);
     }));
+    // console.log(points.map(el => `x:${el.x},\ty:${el.y},\tr:${el.r}`).join('\n'));
     return Q;
   },
 
   drawDiagonal(col, row, M) {
     for (let i = 0; row + i < M.length && col + i < M[0].length; i++) {
-      // M[row + i][col + i] = M[row + i][col + i] ^ 1;
+      M[row + i][col + i] = M[row + i][col + i] ^ 1;
       // M[row + i][col + i] = Number.isInteger(M[row + i][col + i]) ? '-' : 1;
-      M[row + i][col + i] = Number.isInteger(M[row + i][col + i]) ? M[row + i][col + i] ^ 1 : 1;
+      // M[row + i][col + i] = Number.isInteger(M[row + i][col + i]) ? M[row + i][col + i] ^ 1 : 1;
     }
   },
 
-  splitIntoPowers: function(poly) {
-    return poly.split('').reverse().map(el => parseInt(el, 2)).concat(new Array(this._MATRIX_SIZE - poly.length).fill(0));
+  splitIntoPowers: function(poly, size) {
+    return Array.from(poly).reverse().map(el => parseInt(el, 2)).concat(new Array(size - poly.length).fill(0));
   },
 
-  buildTeplitsMatrices: function(powers) {
-    const matrixL = this.createMatrix(this._MATRIX_SIZE);
-    const matrixU = this.createMatrix(this._MATRIX_SIZE);
+  buildTeplitsMatrices: function(powers, size) {
+    const matrixL = this.createMatrix(size);
+    const matrixU = this.createMatrix(size);
 
-    for (let row = 0; row < this._MATRIX_SIZE; row++) {
-      for (let col = 0; col < this._MATRIX_SIZE; col++) {
+    for (let row = 0; row < size; row++) {
+      for (let col = 0; col < size; col++) {
         if (row >= col) {
           matrixL[row][col] = powers[row - col] || 0;
         } else {
-          matrixU[row][col] = powers[this._MATRIX_SIZE - col + row] || 0;
+          matrixU[row][col] = powers[size - col + row] || 0;
         }
       }
     }
@@ -115,9 +102,9 @@ const multiplier = {
     return {matrixL, matrixU};
   },
 
-  createMatrix: function(m) {
-    return new Array(m).fill(0).map(el => new Array(m).fill('-'));
-    // return new Array(m).fill(0).map(el => new Array(m).fill(0));
+  createMatrix: function(size) {
+    // return new Array(size).fill(0).map(el => new Array(size).fill('-'));
+    return new Array(size).fill(0).map(el => new Array(size).fill(0));
   },
 
   multiplyMatrixByVector: function(matrix, vector) {
@@ -145,6 +132,7 @@ const multiplier = {
   },
 
   printStatus: function(Q = [[]], A = [], B = [], matrixL = [[]], matrixU = [[]], d = [], e = [], c = []) {
+    console.log('*****************************************************************');
     console.log('Q');
     this.printMatrix(Q);
     console.log();
@@ -169,21 +157,23 @@ const multiplier = {
   }
 };
 
-// multiplier.main('101111', '111101', '111111111111111111111111111111111'); // ESP
-// multiplier.main('101111', '111101', '101010101010101010101010101010101'); // ESP
+// multiplier.main('1101000010111010', '1010111101000001', '111111111111111111111111111111111'); // ESP
+// multiplier.main('1101000010111010', '1010111101000001', '101010101010101010101010101010101'); // ESP
 // multiplier.main('1101000010111010', '1010111101000001', '100010001000100010001000100010001'); // ESP
-// multiplier.main('101111', '111101', '100000001000000010000000100000001'); // ESP
-// multiplier.main('101111', '111101', '1000000000010000000000100000000001'); // ESP
-// multiplier.main('101111', '111101', '100000000000000010000000000000001'); // ESP
-// multiplier.main('101111', '111101', '100000000000000000000000000000011'); //Trinom
-// multiplier.main('101111', '111101', '100000000000000000010000000000001'); //Trinom
+// multiplier.main('1101000010111010', '1010111101000001', '100000001000000010000000100000001'); // ESP
+// multiplier.main('1101000010111010', '1010111101000001', '1000000000010000000000100000000001'); // ESP
+// multiplier.main('1101000010111010', '1010111101000001', '100000000000000010000000000000001'); // ESP
+// multiplier.main('1101000010111010', '1010111101000001', '100000000000000000000000000000011'); //Trinom
+// multiplier.main('1101000010111010', '1010111101000001', '100000000000000000000000000000101'); //Trinom
+// multiplier.main('1101000010111010', '1010111101000001', '100000000000000000010000000000001'); //Trinom
 // multiplier.main('1101000010111010', '1010111101000001', '100000000100000000000000000000001'); //Trinom
-// multiplier.main('101111', '111101', '101000000000000000000000000000001'); //Trinom
-// multiplier.main('101111', '111101', '110000000000000000000000000000001'); //Trinom
+// multiplier.main('1101000010111010', '1010111101000001', '101000000000000000000000000000001'); //Trinom
+// multiplier.main('1101000010111010', '1010111101000001', '110000000000000000000000000000001'); //Trinom
 // multiplier.main('1101000010111010', '1010111101000001', '100000000000000000001001000100001'); //Pentanom
 // multiplier.main('1101000010111010', '1010111101000001', '100000000100000000100000000100001'); //Pentanom
 // multiplier.main('1101000010111010', '1010111101000001', '100000010000001000000100000000001'); //Pentanom
-// multiplier.main('1101000010111010', '1010111101000001', '100010001000100000000000000000001'); //Pentanom
-// multiplier.main('100101', '101001', '1000011'); //Trinom
+// multiplier.main('100101', '111010', '1000011'); //Trinom
+// multiplier.main('100101', '111010', '1100001'); //Trinom
+// multiplier.main('100101', '111010', '1111111'); //Trinom
 
 module.exports = multiplier;
