@@ -1,5 +1,6 @@
 const BigInt = require('big-integer');
-const jsMultiplier = require('./jsMultiplier');
+const multiplier = require('../multiplier');
+const utils = require('../utils');
 
 const generateCode = function (p) {
   const size = p.length - 1;
@@ -7,7 +8,7 @@ const generateCode = function (p) {
   generatedCode += generateSplitting('a', size);
   generatedCode += generateSplitting('b', size);
   generatedCode += generateTeplitsMatricesBuilding(size);
-  generatedCode += generateResultVectorCalculation(size, p);
+  generatedCode += generateResultVectorCalculation(p, size);
   generatedCode += generateMultiplicationResult(size);
 
   return generatedCode;
@@ -38,8 +39,8 @@ const generateCode = function (p) {
     return result += '\r\n';
   }
 
-  function generateResultVectorCalculation(size, p) {
-    const QT = jsMultiplier.transposeMatrix(jsMultiplier.initReductionMatrix(p));
+  function generateResultVectorCalculation(p, size) {
+    const QT = utils.transposeMatrix(multiplier.initReductionMatrix(p));
     const preparedMatrix = QT.map(V => V.map((el, idx) => ({el: el, idx: idx})).filter(cell => cell.el !== 0).map(cell => cell.idx));
 
     let result = '';

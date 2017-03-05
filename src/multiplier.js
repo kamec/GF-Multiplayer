@@ -1,5 +1,6 @@
-const multiplier = {
+const utils = require('./utils');
 
+const multiplier = {
   main: function(a, b, p) {
     MATRIX_SIZE = p.length - 1;
     const Q = this.initReductionMatrix(p);
@@ -8,13 +9,13 @@ const multiplier = {
     const B = this.splitIntoPowers(b, MATRIX_SIZE);
     const {matrixL, matrixU} = this.buildTeplitsMatrices(A, MATRIX_SIZE);
 
-    const d = this.multiplyMatrixByVector(matrixL, B);
-    const e = this.multiplyMatrixByVector(matrixU, B);
+    const d = utils.multiplyMatrixByVector(matrixL, B);
+    const e = utils.multiplyMatrixByVector(matrixU, B);
 
-    const V2 = this.multiplyMatrixByVector(this.transposeMatrix(Q), e);
-    const c = this.xorVectors(d, V2);
+    const V2 = utils.multiplyMatrixByVector(utils.transposeMatrix(Q), e);
+    const c = utils.xorVectors(d, V2);
 
-    this.printStatus(Q, A, B, matrixL, matrixU, d, e, c);
+    utils.printStatus(Q, A, B, matrixL, matrixU, d, e, c);
   },
 
   initReductionMatrix: function(p) {
@@ -24,7 +25,6 @@ const multiplier = {
 
   buildReductionMatrix: function(m, k) {
     const s = this.calculateDiff(m, k);
-    // console.log(k.join(' '), m, s);
     return Number.isInteger(s)
       ? this.buildReductionMatrixForESP(m, s)
       : this.buildGenericReductionMatrix(m, k);
@@ -43,7 +43,7 @@ const multiplier = {
   },
 
   buildReductionMatrixForESP: function(m, s) {
-    const Q = this.createMatrix(m);
+    const Q = utils.createMatrix(m);
     Q.pop();
     for (let row = 0; row < Q.length; row++) {
       for (let col = 0; col < Q[0].length; col++) {
@@ -57,19 +57,16 @@ const multiplier = {
   },
 
   buildGenericReductionMatrix: function(m, k) {
-    const Q = this.createMatrix(m);
+    const Q = utils.createMatrix(m);
     Q.pop();
-    // const points = [];
     k.push(m);
     k.forEach(ki => k.forEach(kj => {
       let r = m - kj;
       do {
-        // points.push({y: kj, x: ki, r: r});
         this.drawDiagonal(ki, r, Q);
         r += m - kj;
       } while (r < m - 1 && kj !== m);
     }));
-    // console.log(points.map(el => `x:${el.x},\ty:${el.y},\tr:${el.r}`).join('\n'));
     return Q;
   },
 
@@ -86,8 +83,8 @@ const multiplier = {
   },
 
   buildTeplitsMatrices: function(powers, size) {
-    const matrixL = this.createMatrix(size);
-    const matrixU = this.createMatrix(size);
+    const matrixL = utils.createMatrix(size);
+    const matrixU = utils.createMatrix(size);
 
     for (let row = 0; row < size; row++) {
       for (let col = 0; col < size; col++) {
@@ -101,60 +98,6 @@ const multiplier = {
     matrixU.pop();
     return {matrixL, matrixU};
   },
-
-  createMatrix: function(size) {
-    // return new Array(size).fill(0).map(el => new Array(size).fill('-'));
-    return new Array(size).fill(0).map(el => new Array(size).fill(0));
-  },
-
-  multiplyMatrixByVector: function(matrix, vector) {
-    return matrix.map(row => this.multiplyVectorByVector(row, vector));
-  },
-
-  multiplyVectorByVector: function(V1, V2) {
-    return V1.reduce((prev, curr, idx) => prev ^ (curr & V2[idx]), 0);
-  },
-
-  transposeMatrix: function(M) {
-    return M[0].map((col, i) => M.map((row) => row[i]));
-  },
-
-  xorVectors: function(V1, V2) {
-    return V1.map((el, idx) => el ^ V2[idx]);
-  },
-
-  printMatrix: function(M) {
-    console.log(M.map(row => row.join(' ')).join('\n'));
-  },
-
-  printVector: function(V) {
-    console.log(V.join(' '));
-  },
-
-  printStatus: function(Q = [[]], A = [], B = [], matrixL = [[]], matrixU = [[]], d = [], e = [], c = []) {
-    console.log('*****************************************************************');
-    console.log('Q');
-    this.printMatrix(Q);
-    console.log();
-    console.log('A, B');
-    this.printVector(A);
-    this.printVector(B);
-    console.log();
-    console.log('L');
-    this.printMatrix(matrixL);
-    console.log();
-    console.log('U');
-    this.printMatrix(matrixU);
-    console.log();
-    console.log('d,e');
-    this.printVector(d);
-    // console.log();
-    this.printVector(e);
-    console.log();
-    console.log();
-    console.log('C');
-    this.printVector(c);
-  }
 };
 
 // multiplier.main('1101000010111010', '1010111101000001', '111111111111111111111111111111111'); // ESP
