@@ -20,35 +20,33 @@ const utils = {
     return V1.map((el, idx) => el ^ V2[idx]);
   },
 
-  printMatrix: function(M) {
-    console.log(M.map(row => row.join(' ')).join('\n'));
+  stringifyMatrix: function(M) {
+    return M.map(row => row.join(' ')).join('\n');
   },
 
-  printVector: function(V) {
-    console.log(V.join(' '));
+  stringifyVector: function(V) {
+    return V.join(' ');
   },
 
-  printStatus: function(Q = [[]], A = [], B = [], matrixL = [[]], matrixU = [[]], d = [], e = [], c = []) {
-    console.log('*****************************************************************');
-    console.log('Q');
-    this.printMatrix(Q);
-    console.log();
-    console.log('A, B');
-    this.printVector(A);
-    this.printVector(B);
-    console.log();
-    console.log('L');
-    this.printMatrix(matrixL);
-    console.log();
-    console.log('U');
-    this.printMatrix(matrixU);
-    console.log();
-    console.log('d,e');
-    this.printVector(d);
-    this.printVector(e);
-    console.log();
-    console.log('C');
-    this.printVector(c);
+  getStatus: function(Q = [[]], A = [], B = [], matrixL = [[]], matrixU = [[]], d = [], e = [], c = []) {
+    let status = `Q =\r\n`;
+    status += `${this.stringifyMatrix(Q)}\r\n`;
+    status += `\r\n`;
+    status += `A = ${this.stringifyVector(A)}\r\n`;
+    status += `B = ${this.stringifyVector(B)}\r\n`;
+    status += `\r\n`;
+    status += `L =\r\n`;
+    status += `${this.stringifyMatrix(matrixL)}\r\n`;
+    status += `\r\n`;
+    status += `U =\r\n`;
+    status += `${this.stringifyMatrix(matrixU)}\r\n`;
+    status += `\r\n`;
+    status += `d = ${this.stringifyVector(d)}\r\n`;
+    status += `e = ${this.stringifyVector(e)}\r\n`;
+    status += `\r\n`;
+    status += `C = ${this.stringifyVector(c)}\r\n`;
+    status += `\r\n`;
+    return status;
   },
 };
 

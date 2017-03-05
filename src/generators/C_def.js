@@ -1,5 +1,5 @@
 const BigInt = require('big-integer');
-const multiplier = require('../multiplier');
+const multiplier = require('./matrix');
 const utils = require('../utils');
 
 const generateCode = function (p) {

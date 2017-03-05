@@ -1,4 +1,4 @@
-const utils = require('./utils');
+const utils = require('../utils');
 
 const multiplier = {
   main: function(a, b, p) {
@@ -15,7 +15,8 @@ const multiplier = {
     const V2 = utils.multiplyMatrixByVector(utils.transposeMatrix(Q), e);
     const c = utils.xorVectors(d, V2);
 
-    utils.printStatus(Q, A, B, matrixL, matrixU, d, e, c);
+    const status = utils.getStatus(Q, A, B, matrixL, matrixU, d, e, c);
+    console.log(status);
   },
 
   initReductionMatrix: function(p) {
@@ -117,6 +118,5 @@ const multiplier = {
 // multiplier.main('1101000010111010', '1010111101000001', '100000010000001000000100000000001'); //Pentanom
 // multiplier.main('100101', '111010', '1000011'); //Trinom
 // multiplier.main('100101', '111010', '1100001'); //Trinom
-// multiplier.main('100101', '111010', '1111111'); //Trinom
-
+// multiplier.main('100101', '111010', '1111111'); //ESP
 module.exports = multiplier;
