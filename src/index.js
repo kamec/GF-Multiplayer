@@ -1,6 +1,5 @@
 const fs = require('fs');
 const generateCode = require('./generators/C_def');
-
 // const p = '1000010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001';
 
 // process.on('exit', (err) => {
@@ -17,42 +16,44 @@ process.on('exit', err => {
   const args = process.argv.slice(2);
   const opts = parseArgs(args);
 
-  if (!opts.p) {
-    process.exit();
-  }
-
   fs.mkdir(`${opts.path}`, err => {
-    if (err.code !== 'EEXIST') {
+    if (err && err.code !== 'EEXIST') {
       process.exit(err);
     }
-  });
 
-  fs.writeFile(`${opts.path}/${opts.filename}`, generateCode(opts.p), err => {
-    if (err) {
-      process.exit(err);
-    } else {
-      console.log('Done');
-    }
+    fs.writeFile(`${opts.path}/${opts.filename}`, generateCode(opts.p), err => {
+      if (err) {
+        process.exit(err);
+      } else {
+        console.log('Done');
+      }
+    });
   });
 
   function parseArgs(args) {
-
-    console.log(args);
-    const opts = {
-      lang: 'C_def',
-      path: `${__dirname}/../tmp`,
-    };
-    opts.filename = `out.${resolveExtension(opts.lang)}`;
-    if (args.length === 0 || args.findIndex('-h') !== -1 || args.length % 2 !== 0) {
+    const opts = {};
+    if (args.length === 0 || args.indexOf('-h') !== -1 || args.indexOf('-p') === -1 || args.length % 2 !== 0) { // TODO: normalize condition
       printHelp();
-      return opts;
+      process.exit();
     }
+
+    const flags = args.reduce((acc, curr, idx, arr) => {
+      if (idx % 2 === 0) {
+        acc[curr.slice(1, 2)] = arr[idx + 1];
+      }
+      return acc;
+    }, {});
+
+    opts.p = flags.p;
+    opts.path = flags.o || `${__dirname}/../tmp`;
+    opts.lang = flags.g || 'C_def';
+    opts.filename = `out.${resolveExtension(opts.lang)}`;
 
     return opts;
   }
 
   function printHelp() {
-    let helpMessage = `USAGE:\r\n\tnode index.js [-h] [[-o | -out] <string>] [[-g | -generate] <string>] [-p | -polynomial] <number>\r\n`;
+    let helpMessage = `USAGE:\r\n\tnode index.js [-h] [[-o | -out] <string>] [[-g | -generate] <string>] -p | -polynomial <number>\r\n`;
     helpMessage += `\t-h\t\t\t\t--print this message;\r\n`;
     helpMessage += `\t-o | -out <absolute path>\t--path for output folder;\r\n`;
     helpMessage += `\t-g | -generate <language>\t--language for output code;\r\n`;
