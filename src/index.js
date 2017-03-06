@@ -1,10 +1,8 @@
 const fs = require('fs');
+const path = require('path');
 const generateCode = require('./generators/C_def');
+const loader = require('./langLoader');
 // const p = '1000010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001';
-
-// process.on('exit', (err) => {
-//   console.log(err);
-// });
 
 process.on('exit', err => {
   if (err !== 0 && !err) {
@@ -15,13 +13,12 @@ process.on('exit', err => {
 (function() {
   const args = process.argv.slice(2);
   const opts = parseArgs(args);
-
+  console.log(args, opts, loader);
   fs.mkdir(`${opts.path}`, err => {
     if (err && err.code !== 'EEXIST') {
       process.exit(err);
     }
-
-    fs.writeFile(`${opts.path}/${opts.filename}`, generateCode(opts.p), err => {
+    fs.writeFile(path.join(opts.path, opts.filename), loader[opts.lang](opts.p), err => {
       if (err) {
         process.exit(err);
       } else {
@@ -45,7 +42,7 @@ process.on('exit', err => {
     }, {});
 
     opts.p = flags.p;
-    opts.path = flags.o || `${__dirname}/../tmp`;
+    opts.path = flags.o || path.join(__dirname, '..', 'tmp');
     opts.lang = flags.g || 'C_def';
     opts.filename = `out.${resolveExtension(opts.lang)}`;
 
@@ -63,7 +60,7 @@ process.on('exit', err => {
   }
 
   function getSupprotedLangages() {
-    return fs.readdirSync(`${__dirname}/generators/`).map(lang => lang.replace(/.js$/, '')).join(', ');
+    return fs.readdirSync(path.join(__dirname, `generators`)).map(lang => lang.replace(/.js$/, '')).join(', ');
   }
 
   function resolveExtension(lang) {
