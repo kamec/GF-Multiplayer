@@ -4,14 +4,14 @@ const utils = require('../utils');
 const generateCode = function(Q) {
   const size = Q[0].length;
 
-  let generatedCode = generateResultVectorCalculation(Q, size);
-  generatedCode += generateStatic();
-  generatedCode += generateSplittingArray(size);
-  generatedCode += generateSplitting(size);
-  generatedCode += generateTeplitsMatricesBuilding(size);
-  generatedCode += generateMultiplicationResult(size);
+  let result = generateResultVectorCalculation(Q, size);
+  result += generateStatic();
+  result += generateSplittingArray(size);
+  result += generateSplitting(size);
+  result += generateTeplitsMatricesBuilding(size);
+  result += generateMultiplicationResult(size);
 
-  return generatedCode;
+  return result;
 };
 
 function generateResultVectorCalculation(Q, size) {
@@ -22,9 +22,7 @@ function generateResultVectorCalculation(Q, size) {
   for (let i = 0; i < size; i++) {
     result += `#define c${i}\t((d[${i}]`;
     preparedMatrix[i].forEach(position => result += `^e[${position}]`);
-    result += `)${i === 0
-      ? ''
-      : ` << ${i}`})\r\n`;
+    result += `)${i === 0 ? '' : ` << ${i}`})\r\n`;
   }
   return result += '\r\n';
 };
@@ -32,8 +30,7 @@ function generateResultVectorCalculation(Q, size) {
 function generateStatic() {
   let result = `\#include <stdio.h>\r\n`;
   result += `\#include <stdlib.h>\r\n`;
-  result += `int main(int argc, char *argv[])\r\n`;
-  result += `{\r\n`;
+  result += `int main(int argc, char *argv[]) {\r\n`;
   result += `\tchar *pCh;\r\n`;
   result += `\tunsigned int i, j;\r\n`;
   result += `\tunsigned int A = strtoul(argv[1], &pCh, 2);\r\n`;

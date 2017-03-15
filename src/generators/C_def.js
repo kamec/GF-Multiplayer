@@ -61,8 +61,7 @@ function generateMultiplicationResult(size) {
     result += `${i === 0 ? '' : '^'}c${i}`;
   }
   result += ')\r\n';
-  result += `int main(int argc, char *argv[])\r\n`
-  result += `{\r\n`
+  result += `int main(int argc, char *argv[]) {\r\n`
   result += `\tchar *pCh;\r\n`
   result += `\tunsigned int A = strtoul(argv[1], &pCh, 2);\r\n`
   result += `\tunsigned int B = strtoul(argv[2], &pCh, 2);\r\n`

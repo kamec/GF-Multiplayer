@@ -45,7 +45,7 @@ process.on('exit', err => {
     opts.p = flags.p;
     opts.path = flags.o || path.join(__dirname, '..', 'tmp');
     opts.lang = flags.g || 'C_def';
-    opts.filename = `out.${resolveExtension(opts.lang)}`;
+    opts.filename = `Generator.${resolveExtension(opts.lang)}`;
 
     return opts;
   }
