@@ -28,7 +28,8 @@ function generateResultVectorCalculation(Q, size) {
 };
 
 function generateStatic() {
-  let result = `\#include <stdio.h>\r\n`;
+  let result = '';
+  result += `\#include <stdio.h>\r\n`;
   result += `\#include <stdlib.h>\r\n`;
   result += `int main(int argc, char *argv[]) {\r\n`;
   result += `\tchar *pCh;\r\n`;

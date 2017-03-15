@@ -4,14 +4,14 @@ const utils = require('../utils');
 const generateCode = function(Q) {
   const size = Q[0].length;
 
-  let generatedCode = '\#include <stdio.h>\r\n\#include <stdlib.h>\r\n';
-  generatedCode += generateSplitting('a', size);
-  generatedCode += generateSplitting('b', size);
-  generatedCode += generateTeplitsMatricesBuilding(size);
-  generatedCode += generateResultVectorCalculation(Q, size);
-  generatedCode += generateMultiplicationResult(size);
+  let result = '\#include <stdio.h>\r\n\#include <stdlib.h>\r\n';
+  result += generateSplitting('a', size);
+  result += generateSplitting('b', size);
+  result += generateTeplitsMatricesBuilding(size);
+  result += generateResultVectorCalculation(Q, size);
+  result += generateMultiplicationResult(size);
 
-  return generatedCode;
+  return result;
 };
 
 function generateSplitting(letter, size) {
