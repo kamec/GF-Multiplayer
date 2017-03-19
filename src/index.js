@@ -66,8 +66,8 @@ process.on('exit', err => {
 
   function resolveExtension(lang) {
     switch (lang) {
-      case 'C_def':
-      case 'C_func':
+      case 'c_def':
+      case 'c_func':
         return 'c';
       case 'python':
         return 'py';

@@ -4,6 +4,10 @@ const utils = {
     return new Array(size).fill(0).map(el => new Array(size).fill(0));
   },
 
+  prepareMatrix: function(M) {
+    return this.transposeMatrix(M).map(V => V.map((el, idx) => ({el: el, idx: idx})).filter(cell => cell.el !== 0).map(cell => cell.idx));
+  },
+
   multiplyMatrixByVector: function(matrix, vector) {
     return matrix.map(row => this.multiplyVectorByVector(row, vector));
   },

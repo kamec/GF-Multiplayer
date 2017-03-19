@@ -15,8 +15,7 @@ const generateCode = function(Q) {
 };
 
 function generateResultVectorCalculation(Q, size) {
-  const QT = utils.transposeMatrix(Q);
-  const preparedMatrix = QT.map(V => V.map((el, idx) => ({el: el, idx: idx})).filter(cell => cell.el !== 0).map(cell => cell.idx));
+  const preparedMatrix = utils.prepareMatrix(Q);
 
   let result = '';
   for (let i = 0; i < size; i++) {
@@ -75,10 +74,10 @@ function generateTeplitsMatricesBuilding(size) {
   result += `\t\t}\r\n`;
   result += `\t}\r\n`;
 
-  result += `\tfor (i = 1; i < ${size}; i++) {\r\n`;
-  result += `\t\te[i-1] = a[i]&b[${size - 1}];\r\n`;
-  result += `\t\tfor (j = i + 1;  j < ${size}; j++) {\r\n`;
-  result += `\t\t\te[i-1] ^= a[j]&b[${size - 1} - j + i];\r\n`;
+  result += `\tfor (i = 0; i < ${size-1}; i++) {\r\n`;
+  result += `\t\te[i] = a[i+1]&b[${size - 1}];\r\n`;
+  result += `\t\tfor (j = i + 2;  j < ${size}; j++) {\r\n`;
+  result += `\t\t\te[i] ^= a[j]&b[${size} - j + i];\r\n`;
   result += `\t\t}\r\n`;
   result += `\t}\r\n`;
 

@@ -43,8 +43,7 @@ function generateTeplitsMatricesBuilding(size) {
 };
 
 function generateResultVectorCalculation(Q, size) {
-  const QT = utils.transposeMatrix(Q);
-  const preparedMatrix = QT.map(V => V.map((el, idx) => ({el: el, idx: idx})).filter(cell => cell.el !== 0).map(cell => cell.idx));
+  const preparedMatrix = utils.prepareMatrix(Q);
 
   let result = '';
   for (let i = 0; i < size; i++) {

@@ -4,7 +4,7 @@ const utils = require('../utils');
 const generateCode = function(Q) {
   const size = Q[0].length;
   let result = '';
-  result += generateStatic(size);
+  result += generateStatic();
   result += generateSplittingArray(size);
   result += generateSplitting(size);
   result += generateTeplitsMatricesBuilding(size);
@@ -13,7 +13,7 @@ const generateCode = function(Q) {
   return result;
 };
 
-function generateStatic(size) {
+function generateStatic() {
   let result = '';
   // result += `package com.autogen.generator;\r\n`;
   result += `public class Generator {\r\n`;
@@ -28,13 +28,13 @@ function generateSplittingArray(size) {
     result += `${BigInt(2).pow(i)}${i < size - 1 ? ', ' : ''}`;
   }
   result += `};\r\n`;
-  result += `\t\tlong[] a = new long[${size}];\r\n`;
-  result += `\t\tlong[] b = new long[${size}];\r\n`;
   return result;
 }
 
 function generateSplitting(size) {
   let result = '';
+  result += `\t\tlong[] a = new long[${size}];\r\n`;
+  result += `\t\tlong[] b = new long[${size}];\r\n`;
   result += `\t\tfor (int i = 0; i < ${size}; i++) {\r\n`;
   result += splitter('a');
   result += splitter('b');
@@ -58,10 +58,10 @@ function generateTeplitsMatricesBuilding(size) {
   result += `\t\t\t}\r\n`;
   result += `\t\t}\r\n`;
 
-  result += `\t\tfor (int i = 1; i < ${size}; i++) {\r\n`;
-  result += `\t\t\te[i-1] = a[i]&b[${size - 1}];\r\n`;
-  result += `\t\t\tfor (int j = i + 1;  j < ${size}; j++) {\r\n`;
-  result += `\t\t\t\te[i-1] ^= a[j]&b[${size - 1} - j + i];\r\n`;
+  result += `\t\tfor (int i = 0; i < ${size - 1}; i++) {\r\n`;
+  result += `\t\t\te[i] = a[i + 1]&b[${size - 1}];\r\n`;
+  result += `\t\t\tfor (int j = i + 2;  j < ${size}; j++) {\r\n`;
+  result += `\t\t\t\te[i] ^= a[j]&b[${size} - j + i];\r\n`;
   result += `\t\t\t}\r\n`;
   result += `\t\t}\r\n`;
 
@@ -69,8 +69,7 @@ function generateTeplitsMatricesBuilding(size) {
 }
 
 function generateResultVectorCalculation(Q, size) {
-  const QT = utils.transposeMatrix(Q);
-  const preparedMatrix = QT.map(V => V.map((el, idx) => ({el: el, idx: idx})).filter(cell => cell.el !== 0).map(cell => cell.idx));
+  const preparedMatrix = utils.prepareMatrix(Q);
 
   let result = '';
   result += `\t\tlong[] c = new long[${size}];\r\n`;
