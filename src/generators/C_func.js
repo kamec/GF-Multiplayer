@@ -3,27 +3,14 @@ const utils = require('../utils');
 
 const generateCode = function(Q) {
   const size = Q[0].length;
-
-  let result = generateResultVectorCalculation(Q, size);
+  let result = '';
   result += generateStatic();
   result += generateSplittingArray(size);
   result += generateSplitting(size);
   result += generateTeplitsMatricesBuilding(size);
+  result += generateResultVectorCalculation(Q, size);
   result += generateMultiplicationResult(size);
-
   return result;
-};
-
-function generateResultVectorCalculation(Q, size) {
-  const preparedMatrix = utils.prepareMatrix(Q);
-
-  let result = '';
-  for (let i = 0; i < size; i++) {
-    result += `#define c${i}\t((d[${i}]`;
-    preparedMatrix[i].forEach(position => result += `^e[${position}]`);
-    result += `)${i === 0 ? '' : ` << ${i}`})\r\n`;
-  }
-  return result += '\r\n';
 };
 
 function generateStatic() {
@@ -84,12 +71,25 @@ function generateTeplitsMatricesBuilding(size) {
   return result += '\r\n';
 };
 
+function generateResultVectorCalculation(Q, size) {
+  const preparedMatrix = utils.prepareMatrix(Q);
+
+  let result = '';
+  result += `\tunsigned int c[${size}];\r\n`;
+  for (let i = 0; i < size; i++) {
+    result += `\tc[${i}] = (d[${i}]`;
+    preparedMatrix[i].forEach(position => result += `^e[${position}]`);
+    result += `)${i === 0 ? '' : ` << ${i}`};\r\n`;
+  }
+  return result += '\r\n';
+};
+
 function generateMultiplicationResult(size) {
   let result = '';
 
   result += '\tunsigned int C = ';
   for (let i = 0; i < size; i++) {
-    result += `c${i}${i !== size - 1 ? '^' : ';\r\n'}`;
+    result += `c[${i}]${i !== size - 1 ? '^' : ';\r\n'}`;
   }
 
   result += `\tprintf("%d\\r\\n", C);\r\n`

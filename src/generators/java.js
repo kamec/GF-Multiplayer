@@ -74,7 +74,7 @@ function generateResultVectorCalculation(Q, size) {
   let result = '';
   result += `\t\tlong[] c = new long[${size}];\r\n`;
   for (let i = 0; i < size; i++) {
-    result += `\t\tc[${i}] = \t(d[${i}]`;
+    result += `\t\tc[${i}] = (d[${i}]`;
     preparedMatrix[i].forEach(position => result += `^e[${position}]`);
     result += `)${i === 0 ? '' : ` << ${i}`};\r\n`;
   }
