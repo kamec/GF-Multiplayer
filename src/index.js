@@ -3,7 +3,6 @@ const path = require('path');
 const generateCode = require('./generators/C_def');
 const builder = require('./matrixBuilder');
 const loader = require('./langLoader');
-// const p = '1000010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001';
 
 process.on('exit', err => {
   if (err !== 0 && !err) {
@@ -14,12 +13,11 @@ process.on('exit', err => {
 (function() {
   const args = process.argv.slice(2);
   const opts = parseArgs(args);
-  console.log(args, opts, loader);
   fs.mkdir(`${opts.path}`, err => {
     if (err && err.code !== 'EEXIST') {
       process.exit(err);
     }
-    fs.writeFile(path.join(opts.path, opts.filename), loader[opts.lang](builder.initReductionMatrix(opts.p)), err => {
+    fs.writeFile(path.join(opts.path, opts.filename), loader(opts.lang)(builder.initReductionMatrix(opts.p)), err => {
       if (err) {
         process.exit(err);
       } else {
@@ -44,7 +42,7 @@ process.on('exit', err => {
 
     opts.p = flags.p;
     opts.path = flags.o || path.join(__dirname, '..', 'tmp');
-    opts.lang = flags.g || 'C_def';
+    opts.lang = flags.g || 'c_def';
     opts.filename = `Generator.${resolveExtension(opts.lang)}`;
 
     return opts;
@@ -65,7 +63,7 @@ process.on('exit', err => {
   }
 
   function resolveExtension(lang) {
-    switch (lang) {
+    switch (lang.toLowerCase()) {
       case 'c_def':
       case 'c_func':
         return 'c';
