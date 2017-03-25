@@ -21,14 +21,18 @@ const matrixBuilder = {
 
   initReductionMatrix: function(p) {
     const meaningfulPowers = Array.from(p).reverse().map((el, idx) => el === '1' ? idx : el).filter(el => el !== '0');
-    return this.buildReductionMatrix(meaningfulPowers.pop(), meaningfulPowers);
+    return (meaningfulPowers.indexOf(0) === -1) ? [] : this.buildReductionMatrix(meaningfulPowers.pop(), meaningfulPowers);
   },
 
   buildReductionMatrix: function(m, k) {
     const s = this.calculateDiff(m, k);
-    return Number.isInteger(s)
-      ? this.buildReductionMatrixForESP(m, s)
-      : this.buildGenericReductionMatrix(m, k);
+    if (Number.isInteger(s)) {
+      return this.buildReductionMatrixForESP(m, s);
+    }
+    if (k.length === 2 || k.length === 4) {
+      return this.buildGenericReductionMatrix(m, k);
+    }
+    return [];
   },
 
   calculateDiff: function(m, k) {
@@ -98,7 +102,7 @@ const matrixBuilder = {
     }
     matrixU.pop();
     return {matrixL, matrixU};
-  },
+  }
 };
 
 // matrixBuilder.main('1101000010111010', '1010111101000001', '111111111111111111111111111111111'); // ESP
