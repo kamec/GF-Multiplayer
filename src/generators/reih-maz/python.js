@@ -1,5 +1,5 @@
 const BigInt = require('big-integer');
-const utils = require('../utils');
+const utils = require('../../utils');
 
 const generateCode = function(Q) {
   const size = Q[0].length;
@@ -56,7 +56,7 @@ function generateTeplitsMatricesBuilding(size) {
 
 function generateResultVectorCalculation(Q, size) {
   const preparedMatrix = utils.prepareMatrix(Q);
-  
+
   let result = '';
   result += `\t\tc = [`;
   for (let i = 0; i < size; i++) {

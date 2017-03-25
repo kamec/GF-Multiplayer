@@ -1,5 +1,5 @@
 const BigInt = require('big-integer');
-const utils = require('../utils');
+const utils = require('../../utils');
 
 const generateCode = function(Q) {
   const size = Q[0].length;

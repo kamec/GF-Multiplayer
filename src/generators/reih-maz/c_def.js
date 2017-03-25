@@ -1,16 +1,23 @@
 const BigInt = require('big-integer');
-const utils = require('../utils');
+const utils = require('../../utils');
 
 const generateCode = function(Q) {
   const size = Q[0].length;
 
-  let result = '\#include <stdio.h>\r\n\#include <stdlib.h>\r\n';
+  let result = ;
   result += generateSplitting('a', size);
   result += generateSplitting('b', size);
   result += generateTeplitsMatricesBuilding(size);
   result += generateResultVectorCalculation(Q, size);
   result += generateMultiplicationResult(size);
 
+  return result;
+};
+
+function generateStatic() {
+  let result = '';
+  result += '\#include <stdio.h>\r\n';
+  result += '\#include <stdlib.h>\r\n';
   return result;
 };
 
