@@ -4,7 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "help" : "node src/index.js -h",
+    "c_func": "node src/index.js -g c_func -n c_func -p 1010101",
+    "c_def": "node src/index.js -g c_func -n c_def -p 1010101",
+    "java": "node src/index.js -g java -p 1010101",
+    "pascal": "node src/index.js -g pascal -p 1010101",
+    "matrix": "node src/index.js -g matrix -p 1010101"
   },
   "repository": {
     "type": "git"

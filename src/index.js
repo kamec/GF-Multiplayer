@@ -80,6 +80,8 @@ process.on('exit', err => {
     helpMessage += `\t-m | -multiplier <algorithm>\t--multiplier algorithm;\r\n`;
     helpMessage += `\t-p | -polynomial <polynomial>\t--monic irreducible polynomial base 2;\r\n`;
     helpMessage += `\tSUPPORTED LANGUAGES: (\r\n\t\t${getAvaibleOptions()}\r\n\t)\r\n`;
+    helpMessage += `\tEXAMPLE:\r\n`;
+    helpMessage += `\t\tnode index.js -o D:\\tmp\\ -n result -m reih-maz -p 1010101\r\n`;
     console.log(helpMessage);
   }
 
