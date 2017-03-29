@@ -104,7 +104,8 @@ process.on('exit', err => {
       c_func: 'c',
       python: 'py',
       pascal: 'pas',
-      matrix: 'txt'
+      matrix: 'txt',
+      verilog: 'v',
     };
 
     return extentions[lang.toLowerCase()] || '';

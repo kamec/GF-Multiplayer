@@ -9,7 +9,8 @@
     "c_def": "node src/index.js -g c_func -n c_def -p 1010101",
     "java": "node src/index.js -g java -p 1010101",
     "pascal": "node src/index.js -g pascal -p 1010101",
-    "matrix": "node src/index.js -g matrix -p 1010101"
+    "matrix": "node src/index.js -g matrix -p 1010101",
+    "verilog": "node src/index.js -g verilog -p 100011101"
   },
   "repository": {
     "type": "git"
