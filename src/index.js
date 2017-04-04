@@ -99,7 +99,7 @@ process.on('exit', err => {
   }
 
   function resolveExtension(lang) {
-    const extentions = {
+    const extensions = {
       c_def: 'c',
       c_func: 'c',
       python: 'py',
@@ -108,6 +108,6 @@ process.on('exit', err => {
       verilog: 'v',
     };
 
-    return extentions[lang.toLowerCase()] || '';
+    return extensions[lang.toLowerCase()] || '';
   }
 }());

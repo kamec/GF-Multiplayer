@@ -1,6 +1,5 @@
 const utils = {
   createMatrix: function(size) {
-    // return new Array(size).fill(0).map(el => new Array(size).fill('-'));
     return new Array(size).fill(0).map(el => new Array(size).fill(0));
   },
 

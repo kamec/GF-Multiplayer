@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>GF Multiplier</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <div class="wrapper">
+      <form id="generator-options" action="">
+        <label for="multipliers">Choose multiplier algorithm:</label>
+        <select class="select select--multiplier" name="multipliers">
+          <option disabled hidden selected="selected" value=""></option>
+        </select>
+        <label for="generators">Choose generated language:</label>
+        <select class="select select--language" name="generators"></select>
+        <button type="button">Generate</button>
+      </form>
+      <textarea id="generated-code" cass="codemirror" name="generated-code" rows="8" cols="80" readonly="readonly"></textarea>
+    </div>
+    <script src="./index.js" charset="utf-8"></script>
+  </body>
+</html>

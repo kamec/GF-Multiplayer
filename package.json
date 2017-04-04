@@ -4,13 +4,20 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "help" : "node src/index.js -h",
-    "c_func": "node src/index.js -g c_func -n c_func -p 1010101",
-    "c_def": "node src/index.js -g c_func -n c_def -p 1010101",
-    "java": "node src/index.js -g java -p 1010101",
-    "pascal": "node src/index.js -g pascal -p 1010101",
-    "matrix": "node src/index.js -g matrix -p 1010101",
-    "verilog": "node src/index.js -g verilog -p 100011101"
+    "help": "node src/index.js -h",
+
+    "gen:c_func": "node src/index.js -g c_func -n c_func -p 1010101",
+    "gen:c_def": "node src/index.js -g c_func -n c_def -p 1010101",
+    "gen:java": "node src/index.js -g java -p 1010101",
+    "gen:pascal": "node src/index.js -g pascal -p 1010101",
+    "gen:matrix": "node src/index.js -g matrix -p 1010101",
+    "gen:verilog": "node src/index.js -g verilog -p 100011101",
+    "gen:all": "npm run gen:c_func & npm run gen:c_def & npm run gen:java & npm run  gen:pascal & npm run gen:matrix & npm run gen:verilog",
+
+    "make:json" : "node src/buildHelper.js",
+    "serve": "webpack-dev-server --env.Dev",
+    
+    "start": "npm run make:json && npm run serve"
   },
   "repository": {
     "type": "git"
@@ -19,5 +26,10 @@
   "license": "ISC",
   "dependencies": {
     "big-integer": "^1.6.17"
+  },
+  "devDependencies": {
+    "commander": "^2.9.0",
+    "webpack": "^2.3.3",
+    "webpack-dev-server": "^2.4.2"
   }
 }

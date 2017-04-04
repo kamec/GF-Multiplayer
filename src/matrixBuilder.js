@@ -54,7 +54,6 @@ const matrixBuilder = {
       for (let col = 0; col < Q[0].length; col++) {
         if (row < s && (col - row) % s === 0 || row >= s && row - col === s) {
           Q[row][col] = Q[row][col] ^ 1;
-          // Q[row][col] = Number.isInteger(Q[row][col])? '-' : 1;
         }
       }
     }
@@ -78,8 +77,6 @@ const matrixBuilder = {
   drawDiagonal(col, row, M) {
     for (let i = 0; row + i < M.length && col + i < M[0].length; i++) {
       M[row + i][col + i] = M[row + i][col + i] ^ 1;
-      // M[row + i][col + i] = Number.isInteger(M[row + i][col + i]) ? '-' : 1;
-      // M[row + i][col + i] = Number.isInteger(M[row + i][col + i]) ? M[row + i][col + i] ^ 1 : 1;
     }
   },
 
@@ -105,22 +102,4 @@ const matrixBuilder = {
   }
 };
 
-// matrixBuilder.main('1101000010111010', '1010111101000001', '111111111111111111111111111111111'); // ESP
-// matrixBuilder.main('1101000010111010', '1010111101000001', '101010101010101010101010101010101'); // ESP
-// matrixBuilder.main('1101000010111010', '1010111101000001', '100010001000100010001000100010001'); // ESP
-// matrixBuilder.main('1101000010111010', '1010111101000001', '100000001000000010000000100000001'); // ESP
-// matrixBuilder.main('1101000010111010', '1010111101000001', '1000000000010000000000100000000001'); // ESP
-// matrixBuilder.main('1101000010111010', '1010111101000001', '100000000000000010000000000000001'); // ESP
-// matrixBuilder.main('1101000010111010', '1010111101000001', '100000000000000000000000000000011'); //Trinom
-// matrixBuilder.main('1101000010111010', '1010111101000001', '100000000000000000000000000000101'); //Trinom
-// matrixBuilder.main('1101000010111010', '1010111101000001', '100000000000000000010000000000001'); //Trinom
-// matrixBuilder.main('1101000010111010', '1010111101000001', '100000000100000000000000000000001'); //Trinom
-// matrixBuilder.main('1101000010111010', '1010111101000001', '101000000000000000000000000000001'); //Trinom
-// matrixBuilder.main('1101000010111010', '1010111101000001', '110000000000000000000000000000001'); //Trinom
-// matrixBuilder.main('1101000010111010', '1010111101000001', '100000000000000000001001000100001'); //Pentanom
-// matrixBuilder.main('1101000010111010', '1010111101000001', '100000000100000000100000000100001'); //Pentanom
-// matrixBuilder.main('1101000010111010', '1010111101000001', '100000010000001000000100000000001'); //Pentanom
-// matrixBuilder.main('100101', '111010', '1000011'); //Trinom
-// matrixBuilder.main('100101', '111010', '1100001'); //Trinom
-// matrixBuilder.main('100101', '111010', '1111111'); //ESP
 module.exports = matrixBuilder;
