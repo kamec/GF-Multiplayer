@@ -3,10 +3,7 @@
   };
 
   module.exports.prepareMatrix = function prepareMatrix(M) {
-    return this.transposeMatrix(M).map(V => V.map((el, idx) => ({
-      el: el,
-      idx: idx
-    })).filter(cell => cell.el !== 0).map(cell => cell.idx));
+    return this.transposeMatrix(M).map(V => V.map((el, idx) => ({ el: el, idx: idx })).filter(cell => cell.el !== 0).map(cell => cell.idx));
   };
 
   module.exports.multiplyMatrixByVector = function multiplyMatrixByVector(matrix, vector) {

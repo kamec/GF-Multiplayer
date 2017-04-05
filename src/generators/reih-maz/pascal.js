@@ -1,8 +1,6 @@
 const BigInt = require('big-integer');
-const utils = require('../../utils');
 
-const generateCode = function(Q) {
-  const size = Q[0].length;
+const generateCode = function(Q, size) {
   let result = '';
   result += generateStatic();
   result += generateSplittingArray(size);
@@ -70,9 +68,7 @@ function generateTeplitsMatricesBuilding(size) {
   return result += '\r\n';
 };
 
-function generateResultVectorCalculation(Q, size) {
-  const preparedMatrix = utils.prepareMatrix(Q);
-
+function generateResultVectorCalculation(preparedMatrix, size) {
   let result = '';
   result += `\tvar c: array [0..${size-1}] of integer;\r\n`;
   for (let i = 0; i < size; i++) {

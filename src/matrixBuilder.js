@@ -15,7 +15,7 @@ module.exports.main = function(a, b, p) {
   const c = utils.xorVectors(d, V2);
 
   const status = utils.getStatus(Q, A, B, matrixL, matrixU, d, e, c);
-  console.log(status);
+  return status;
 };
 
 module.exports.initReductionMatrix = function(p) {
