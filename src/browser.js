@@ -1,21 +1,33 @@
-const json = require('../tmp/generators.json');
+const library = require('../public/generators.json');
+const builder = require('./matrixBuilder');
 const selMult = document.querySelector('.select--multiplier');
-selMult.onchange = handle;
 const selLang = document.querySelector('.select--language');
+const btn = document.querySelector('.button--generate');
+const input = document.querySelector('.input--polynomial');
+const output = document.querySelector('.generated-code');
 
-json.supported.forEach(gen => initializeMultSelect(selMult, gen));
+const generators = library.supported;
+selMult.onchange = handle;
+generators.forEach(gen => initializeMultSelect(selMult, gen));
+
+btn.onclick = generateCode;
+
+
+function handle(event) {
+  const val = event.target.value;
+  initializeLangSelect(selLang, generators.find(alg => alg.name === val).supported);
+}
 
 function initializeMultSelect(select, generator) {
   const option = createOption(generator.name);
   select.appendChild(option);
-  // initializeLangSelect(selLang, generator.supported);
 }
 
 function initializeLangSelect(select, langs) {
   select.innerHTML = '';
   langs.forEach(opt => {
-    select.appendChild(createOption(opt));
-  })
+    select.appendChild(createOption(opt.name));
+  });
 }
 
 function createOption(content) {
@@ -25,9 +37,20 @@ function createOption(content) {
   return option;
 }
 
-function handle(event) {
-  const val = event.target.value;
-  console.log(val);
-  console.log(json.supported.filter(alg => alg.name === val));
-  initializeLangSelect(selLang, json.supported.filter(alg => alg.name === val).pop().supported)
+function generateCode() {
+  const multIdx = selMult.selectedIndex;
+  const langIdx = selLang.selectedIndex;
+
+  if (multIdx === -1 || langIdx === -1 || isNaN(parseInt(input.value, 2))) {
+    return;
+  }
+
+  const generatorAlg = selMult.options[multIdx].value;
+  const lang = selLang.options[langIdx].value;
+  const Q = builder.initReductionMatrix(input.value);
+  let gen = require(`bundle-loader!./generators/${generatorAlg}/${lang}.js`);
+  gen(function(generator) {
+    output.textContent = generator(Q);
+  });
+
 }

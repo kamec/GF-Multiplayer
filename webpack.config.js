@@ -4,11 +4,30 @@ const path = require('path');
 
 module.exports = function(env) {
   return {
-    context: path.resolve(__dirname, 'src'),
-    entry: './browser.js',
+    entry: './src/browser.js',
     output: {
-      path: path.resolve(__dirname, 'public'),
-      filename: 'index.js'
+      filename: '[name].js',
+      path: path.resolve(__dirname, 'public/js/'),
+      publicPath: './js/',
+      pathinfo: true,
+    },
+
+    module: {
+      rules: [
+        {
+          test: /\.js$/,
+          include: [path.resolve(__dirname, 'src')],
+          enforce: 'post',
+          use: [
+            {
+              loader: 'babel-loader',
+              options: {
+                presets: ['es2015'],
+              }
+            },
+          ],
+        }
+      ],
     },
 
     watch: env.Dev,
@@ -17,15 +36,25 @@ module.exports = function(env) {
       aggregateTimeout: 100
     },
 
-    devtool: env.Dev ? 'cheap-inline-module-source-map' : null,
-    plugins: [new webpack.NoEmitOnErrorsPlugin()],
+    devtool: env.Dev ? 'cheap-inline-module-source-map' : false,
+
+    plugins: [
+      new webpack.NoEmitOnErrorsPlugin(),
+      // new webpack.optimize.UglifyJsPlugin({
+      //   compress: {
+      //     warnings: false,
+      //   }
+      // }),
+      new webpack.optimize.CommonsChunkPlugin({
+        name: 'common',
+        minChunks: 2,
+      }),
+    ],
 
     resolve: {
       modules: [
-      'node_modules',
-      path.resolve(__dirname, 'public'),
-    ],
-      extensions: ['.js'],
+        'node_modules',
+      ],
     },
 
     devServer: {

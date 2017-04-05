@@ -4,7 +4,7 @@ const utils = require('../../utils');
 const generateCode = function(Q) {
   const size = Q[0].length;
 
-  let result = ;
+  let result = generateStatic();
   result += generateSplitting('a', size);
   result += generateSplitting('b', size);
   result += generateTeplitsMatricesBuilding(size);

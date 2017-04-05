@@ -4,20 +4,19 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "help": "node src/index.js -h",
-
+    "gen:help": "node src/index.js -h",
     "gen:c_func": "node src/index.js -g c_func -n c_func -p 1010101",
     "gen:c_def": "node src/index.js -g c_func -n c_def -p 1010101",
     "gen:java": "node src/index.js -g java -p 1010101",
     "gen:pascal": "node src/index.js -g pascal -p 1010101",
     "gen:matrix": "node src/index.js -g matrix -p 1010101",
     "gen:verilog": "node src/index.js -g verilog -p 100011101",
-    "gen:all": "npm run gen:c_func & npm run gen:c_def & npm run gen:java & npm run  gen:pascal & npm run gen:matrix & npm run gen:verilog",
-
-    "make:json" : "node src/buildHelper.js",
+    "gen:all": "npm run gen:c_func & npm run gen:c_def & npm run gen:java & npm run gen:pascal & npm run gen:matrix & npm run gen:verilog",
+    "make:json": "node src/jsonBuilder.js",
+    "make:clean": "node src/clean.js",
     "serve": "webpack-dev-server --env.Dev",
-    
-    "start": "npm run make:json && npm run serve"
+    "build": "npm run make:clean && npm run make:json && webpack --env",
+    "start": "npm run make:clean && npm run serve"
   },
   "repository": {
     "type": "git"
@@ -28,7 +27,12 @@
     "big-integer": "^1.6.17"
   },
   "devDependencies": {
+    "babel-cli": "^6.24.0",
+    "babel-loader": "^6.4.1",
+    "babel-preset-es2015": "^6.24.0",
+    "bundle-loader": "^0.5.5",
     "commander": "^2.9.0",
+    "del": "^2.2.2",
     "webpack": "^2.3.3",
     "webpack-dev-server": "^2.4.2"
   }

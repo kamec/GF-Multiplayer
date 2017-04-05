@@ -8,16 +8,24 @@
   <body>
     <div class="wrapper">
       <form id="generator-options" action="">
-        <label for="multipliers">Choose multiplier algorithm:</label>
-        <select class="select select--multiplier" name="multipliers">
-          <option disabled hidden selected="selected" value=""></option>
-        </select>
-        <label for="generators">Choose generated language:</label>
-        <select class="select select--language" name="generators"></select>
-        <button type="button">Generate</button>
+        <div class="select--group">
+          <label for="multipliers">Choose multiplier algorithm:</label>
+          <select class="select select--multiplier" name="multipliers">
+            <option disabled hidden selected="selected" value=""></option>
+          </select>
+        </div>
+        <div class="select--group">
+          <label for="generators">Choose generated language:</label>
+          <select class="select select--language" name="generators"></select>
+        </div>
+        <div class="select--group">
+          <label for="polinomial">Enter monic irreducible polynomial base 2:</label>
+          <input class="input input--polynomial" name="polinomial">
+        </div>
+        <button class="button button--generate" type="button">Generate</button>
       </form>
-      <textarea id="generated-code" cass="codemirror" name="generated-code" rows="8" cols="80" readonly="readonly"></textarea>
+      <textarea class="generated-code" name="generated-code" readonly="readonly"></textarea>
     </div>
-    <script src="./index.js" charset="utf-8"></script>
+    <script src="js/main.js" charset="utf-8"></script>
   </body>
 </html>

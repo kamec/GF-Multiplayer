@@ -1,0 +1,40 @@
+.wrapper {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+
+  display: flex;
+  flex-flow: column nowrap;
+
+  width: 35rem;
+  min-width: 560px;
+}
+
+#generator-options {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  align-items: stretch;
+
+  width: 35rem;
+  min-width: 560px;
+
+  padding-top: 1.25rem;
+  padding-bottom: 1.25rem;
+}
+
+.select--group {
+  display: flex;
+  justify-content: space-between;
+  width: 30rem;
+}
+
+.generated-code {
+  resize: none;
+  height: 40rem;
+  width: calc(35rem - 4px - 1.6px);
+  overflow-x: scroll;
+}
