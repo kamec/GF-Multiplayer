@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const DIR = path.join(__dirname, 'generators');
-const OUT = path.join(__dirname, '..', 'public', 'generators.json');
+const OUT = path.join(__dirname, '..', 'tmp', 'generators.json');
 
 fs.writeFile(OUT, JSON.stringify(getDirectoryContent(DIR, 'generators')), e => console.error());
 

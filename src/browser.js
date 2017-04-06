@@ -1,4 +1,4 @@
-const library = require('../public/generators.json');
+const library = require('../tmp/generators.json');
 const builder = require('./matrixBuilder');
 const utils = require('./utils');
 

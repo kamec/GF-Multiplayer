@@ -1,11 +1,11 @@
 const BigInt = require('big-integer');
 
 const generateCode = function(Q, size) {
-  let result = '';
-  result += generateStatic(size - 1);
+  let result = generateStatic(size - 1);
   result += generateTeplitsMatricesBuilding(size);
   result += generateResultVectorCalculation(Q, size);
   result += generateMultiplicationResult(size);
+  
   return result;
 };
 

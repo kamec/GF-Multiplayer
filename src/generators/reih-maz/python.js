@@ -1,13 +1,13 @@
 const BigInt = require('big-integer');
 
 const generateCode = function(Q, size) {
-  let result = '';
-  result += generateStatic();
+  let result = generateStatic();
   result += generateSplittingArray(size);
   result += generateSplitting(size);
   result += generateTeplitsMatricesBuilding(size);
   result += generateResultVectorCalculation(Q, size);
   result += generateMultiplicationResult(size);
+  
   return result;
 };
 

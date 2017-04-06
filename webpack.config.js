@@ -9,25 +9,24 @@ module.exports = function(env) {
       filename: '[name].js',
       path: path.resolve(__dirname, 'public/js/'),
       publicPath: './js/',
-      // pathinfo: true,
     },
 
-    // module: {
-    //   rules: [
-    //     {
-    //       test: /\.js$/,
-    //       include: [path.resolve(__dirname, 'src')],
-    //       use: [
-    //         {
-    //           loader: 'babel-loader',
-    //           options: {
-    //             presets: ['es2015'],
-    //           }
-    //         },
-    //       ],
-    //     }
-    //   ],
-    // },
+    module: {
+      rules: [
+        {
+          test: /\.js$/,
+          include: [path.resolve(__dirname, 'src')],
+          use: [
+            {
+              loader: 'babel-loader',
+              options: {
+                presets: ['es2015'],
+              }
+            },
+          ],
+        }
+      ],
+    },
 
     watch: env.Dev,
 
@@ -39,16 +38,11 @@ module.exports = function(env) {
 
     plugins: [
       new webpack.NoEmitOnErrorsPlugin(),
-      // new webpack.optimize.UglifyJsPlugin({
-      //   compress: {
-      //     warnings: false,
-      //   }
-      // }),
-      // new webpack.optimize.CommonsChunkPlugin({
-      //   name: 'common',
-      //   filename: 'common.js',
-      //   minChunks: 2,
-      // }),
+      new webpack.optimize.UglifyJsPlugin({
+        compress: {
+          warnings: false,
+        }
+      }),
     ],
 
     resolve: {

@@ -5,12 +5,25 @@
   left: 0;
   right: 0;
   margin: auto;
-
   display: flex;
   flex-flow: column nowrap;
-
   width: 35rem;
   min-width: 560px;
+}
+
+.input {
+  width: calc(10rem - 2px);
+  border: 1px solid rgb(169, 169, 169);;
+}
+
+.select {
+  width: 10rem;
+}
+
+.button--generate {
+  align-self: flex-end;
+  width: 10rem;
+  height: 2rem;
 }
 
 #generator-options {
@@ -18,23 +31,22 @@
   flex-flow: column nowrap;
   justify-content: flex-start;
   align-items: stretch;
-
   width: 35rem;
   min-width: 560px;
-
   padding-top: 1.25rem;
-  padding-bottom: 1.25rem;
+  padding-bottom: 0.9375rem;
 }
 
 .select--group {
   display: flex;
   justify-content: space-between;
-  width: 30rem;
+  align-items: center;
+  width: 35rem;
+  padding-bottom: 0.625rem;
 }
 
 .generated-code {
   resize: none;
   height: 40rem;
   width: calc(35rem - 4px - 1.6px);
-  overflow-x: scroll;
 }
