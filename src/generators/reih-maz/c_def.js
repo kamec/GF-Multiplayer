@@ -15,7 +15,7 @@ function generateStatic() {
   let result = '';
   result += '\#include <stdio.h>\r\n';
   result += '\#include <stdlib.h>\r\n';
-  return result;
+  return result += '\r\n';
 };
 
 function generateSplitting(letter, size) {

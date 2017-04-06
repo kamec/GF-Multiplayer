@@ -1,10 +1,13 @@
 const library = require('../public/generators.json');
 const builder = require('./matrixBuilder');
+const utils = require('./utils');
+
 const selMult = document.querySelector('.select--multiplier');
 const selLang = document.querySelector('.select--language');
 const btn = document.querySelector('.button--generate');
 const input = document.querySelector('.input--polynomial');
 const output = document.querySelector('.generated-code');
+
 
 const generators = library.supported;
 selMult.onchange = handle;
@@ -48,9 +51,13 @@ function generateCode() {
   const generatorAlg = selMult.options[multIdx].value;
   const lang = selLang.options[langIdx].value;
   const Q = builder.initReductionMatrix(input.value);
-  let gen = require(`bundle-loader!./generators/${generatorAlg}/${lang}.js`);
-  gen(function(generator) {
-    output.textContent = generator(Q);
-  });
+  const size = Q[0].length;
 
+  // // let gen = require(`bundle-loader!./generators/${generatorAlg}/${lang}.js`);
+  // gen(function(generator) {
+  //   output.textContent = generator(Q);
+  // });
+
+  const generator = require(`./generators/${generatorAlg}/${lang}.js`);
+  output.textContent = generator(utils.prepareMatrix(Q), size);
 }
