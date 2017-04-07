@@ -7,8 +7,7 @@ module.exports = function(env) {
     entry: './src/browser.js',
     output: {
       filename: '[name].js',
-      path: path.resolve(__dirname, 'public/js/'),
-      publicPath: './js/',
+      publicPath: '/js/',
     },
 
     module: {
@@ -38,11 +37,11 @@ module.exports = function(env) {
 
     plugins: [
       new webpack.NoEmitOnErrorsPlugin(),
-      new webpack.optimize.UglifyJsPlugin({
-        compress: {
-          warnings: false,
-        }
-      }),
+      // new webpack.optimize.UglifyJsPlugin({
+      //   compress: {
+      //     warnings: false,
+      //   }
+      // }),
     ],
 
     resolve: {
@@ -52,7 +51,7 @@ module.exports = function(env) {
     },
 
     devServer: {
-      contentBase: path.join(__dirname, 'public'),
+      contentBase: path.resolve(__dirname, 'public'),
       port: 5000,
     },
   }
