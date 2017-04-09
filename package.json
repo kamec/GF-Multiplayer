@@ -9,14 +9,14 @@
     "gen:c_def": "node src/console.js -l c_def -n c_def -p 1010101",
     "gen:java": "node src/console.js -l java -p 1010101",
     "gen:pascal": "node src/console.js -l pascal -p 1010101",
-    "gen:matrix": "node src/console.js -l matrix -p 1010101",
+    "gen:plain": "node src/console.js -l plain -p 1010101",
     "gen:verilog": "node src/console.js -l verilog -p 100011101",
     "gen:all": "npm run gen:c_func & npm run gen:c_def & npm run gen:java & npm run gen:pascal & npm run gen:matrix & npm run gen:verilog",
     "make:json": "node src/jsonBuilder.js",
     "make:clean": "node src/clean.js",
     "serve": "webpack-dev-server --env.Dev",
     "build": "npm run make:clean && npm run make:json && webpack --env",
-    "start": "npm run make:clean && npm run serve"
+    "start": "npm run serve"
   },
   "repository": {
     "type": "git"

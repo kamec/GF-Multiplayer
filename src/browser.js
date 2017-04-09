@@ -13,7 +13,6 @@ const output = document.querySelector('.generated-code');
 const generators = library.supported;
 selMult.onchange = handle;
 generators.forEach(gen => initializeMultSelect(selMult, gen));
-console.log(btnDownload);
 
 btnGenerate.onclick = generateCode;
 
@@ -42,10 +41,14 @@ function createOption(content) {
 }
 
 function generateCode() {
+  const isBinary = /^1[01]+1$/g;
   const multIdx = selMult.selectedIndex;
   const langIdx = selLang.selectedIndex;
 
-  if (multIdx === -1 || langIdx === -1 || isNaN(parseInt(input.value, 2))) {
+  if (multIdx === -1 || langIdx === -1 || !isBinary.test(input.value)) {
+    output.textContent = 'ERROR: Check your inputs.\r\n' +
+      '\tYou should choose algorithm and language for generated code.\r\n' +
+      '\tPolinomial should be provided only in binary representation.';
     return;
   }
 
@@ -54,7 +57,8 @@ function generateCode() {
   const Q = builder.initReductionMatrix(input.value);
 
   if (Q.length === 0) {
-    output.textContent = 'ERROR: Invalid polynomial basis type. Only ESP, trinomials and pentanomials are supported.';
+    output.textContent = 'ERROR: Invalid polynomial basis type:\r\n' +
+      '\tOnly ESP, trinomials and pentanomials are supported.';
     return;
   }
 
@@ -63,17 +67,13 @@ function generateCode() {
   const generator = require(`./generators/${generatorAlg}/${lang}.js`);
   output.textContent = generator(utils.prepareMatrix(Q), size);
   btnDownload.disabled = false;
-  btnDownload.onclick = saveTextAsFile;
+  btnDownload.onclick = saveTextAsFile.bind(this, lang);
 }
 
-function saveTextAsFile() {
-  const langIdx = selLang.selectedIndex;
-
+function saveTextAsFile(lang) {
   const textToWrite = output.textContent;
-  const textFileAsBlob = new Blob([textToWrite], {
-    type: 'text/plain'
-  });
-  const fileNameToSaveAs = resolveFilename(selLang.options[langIdx].value);
+  const textFileAsBlob = new Blob([textToWrite], { type: 'text/plain' });
+  const fileNameToSaveAs = utils.resolveFilename(lang);
 
   const downloadLink = document.createElement('a');
   downloadLink.download = fileNameToSaveAs;
@@ -83,21 +83,4 @@ function saveTextAsFile() {
   document.body.appendChild(downloadLink);
 
   downloadLink.click();
-}
-
-function resolveFilename(lang) {
-  return (lang === 'java') ? 'Generator.java' : `output.${resolveExtension(lang)}`;
-};
-
-function resolveExtension(lang) {
-  const extensions = {
-    c_def: 'c',
-    c_func: 'c',
-    pascal: 'pas',
-    plain: 'txt',
-    python: 'py',
-    verilog: 'v',
-  };
-
-  return extensions[lang];
 }

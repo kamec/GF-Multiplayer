@@ -50,3 +50,19 @@
     status += `\r\n`;
     return status;
   };
+
+  module.exports.resolveFilename = function(lang, name) {
+    return (lang === 'java') ? 'Generator.java' : `${name || 'out'}.${resolveExtension(lang)}`;
+  };
+
+  function resolveExtension(lang) {
+    const extensions = {
+      c_def: 'c',
+      c_func: 'c',
+      pascal: 'pas',
+      python: 'py',
+      verilog: 'v',
+    };
+
+    return extensions[lang] || 'txt';
+  }

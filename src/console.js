@@ -29,8 +29,8 @@ const EWRONGTYPE = 'Invalid polynomial basis type. Only ESP, trinomials and pent
     process.exit('ERROR: No polynomial provided.');
   }
 
-  const { language, algorithm, name, out, polynomial } = program;
-  const fileName = resolveFilename(language, name);
+  const {language, algorithm, name, out, polynomial} = program;
+  const fileName = utils.resolveFilename(language, name);
 
   try {
     fs.mkdirSync(`${out}`);
@@ -63,23 +63,6 @@ function getSupportedGenerators() {
 function getSupprotedLanguages(dirName) {
   return `${dirName}: [${fs.readdirSync(path.join(DIR, dirName)).map(lang => lang.replace(/.js$/, '')).join(', ')}]`;
 };
-
-function resolveFilename(lang, name) {
-  return (lang === 'java') ? 'Generator.java' : `${name || 'out'}.${resolveExtension(lang)}`;
-};
-
-function resolveExtension(lang) {
-  const extensions = {
-    c_def: 'c',
-    c_func: 'c',
-    pascal: 'pas',
-    plain: 'txt',
-    python: 'py',
-    verilog: 'v',
-  };
-
-  return extensions[lang];
-}
 
 function loadMultiplier(algorithm, language) {
   const filePath = path.join(__dirname, 'generators', algorithm, language + '.js');

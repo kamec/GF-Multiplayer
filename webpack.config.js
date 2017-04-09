@@ -37,11 +37,11 @@ module.exports = function(env) {
 
     plugins: [
       new webpack.NoEmitOnErrorsPlugin(),
-      // new webpack.optimize.UglifyJsPlugin({
-      //   compress: {
-      //     warnings: false,
-      //   }
-      // }),
+      new webpack.optimize.UglifyJsPlugin({
+        compress: {
+          warnings: false,
+        }
+      }),
     ],
 
     resolve: {
