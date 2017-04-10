@@ -9,7 +9,6 @@ const btnDownload = document.querySelector('.button--download');
 const input = document.querySelector('.input--polynomial');
 const output = document.querySelector('.generated-code');
 
-
 const generators = library.supported;
 selMult.onchange = handle;
 generators.forEach(gen => initializeMultSelect(selMult, gen));
@@ -71,8 +70,7 @@ function generateCode() {
 }
 
 function saveTextAsFile(lang) {
-  const textToWrite = output.textContent;
-  const textFileAsBlob = new Blob([textToWrite], { type: 'text/plain' });
+  const textFileAsBlob = new Blob([output.textContent], { type: 'text/plain' });
   const fileNameToSaveAs = utils.resolveFilename(lang);
 
   const downloadLink = document.createElement('a');

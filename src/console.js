@@ -7,6 +7,7 @@ const utils = require('./utils');
 const DIR = path.join(__dirname, 'generators');
 const DEFAULT_OUT = path.join(__dirname, '..', 'tmp');
 const EWRONGTYPE = 'Invalid polynomial basis type. Only ESP, trinomials and pentanomials are supported.';
+const EWRONGLANG = 'Invalid algorithms name or language. Check supported section.';
 
 (function() {
   process.on('exit', err => {
@@ -29,7 +30,7 @@ const EWRONGTYPE = 'Invalid polynomial basis type. Only ESP, trinomials and pent
     process.exit('ERROR: No polynomial provided.');
   }
 
-  const {language, algorithm, name, out, polynomial} = program;
+  const { language, algorithm, name, out, polynomial } = program;
   const fileName = utils.resolveFilename(language, name);
 
   try {
@@ -66,7 +67,8 @@ function getSupprotedLanguages(dirName) {
 
 function loadMultiplier(algorithm, language) {
   const filePath = path.join(__dirname, 'generators', algorithm, language + '.js');
-  if (fs.lstatSync(filePath).isFile()) {
-    return require(filePath);
+  if (!fs.lstatSync(filePath).isFile()) {
+    program.exit(EWRONGLANG);
   }
+  return require(filePath);
 };
