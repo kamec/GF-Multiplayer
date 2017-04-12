@@ -11,9 +11,9 @@
     "gen:pascal": "node src/console.js -l pascal -p 1010101",
     "gen:plain": "node src/console.js -l plain -p 1010101",
     "gen:verilog": "node src/console.js -l verilog -p 100011101",
-    "gen:all": "npm run gen:c_func & npm run gen:c_def & npm run gen:java & npm run gen:pascal & npm run gen:matrix & npm run gen:verilog",
-    "make:json": "node src/jsonBuilder.js",
-    "make:clean": "node src/clean.js",
+    "gen:all": "npm run gen:c_func & npm run gen:c_def & npm run gen:java & npm run gen:pascal & npm run gen:verilog",
+    "make:json": "node task-build-json.js",
+    "make:clean": "node task-clean.js",
     "serve": "webpack-dev-server --env.Dev",
     "build": "npm run make:clean && npm run make:json && webpack --env",
     "start": "npm run serve"

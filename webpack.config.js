@@ -7,6 +7,7 @@ module.exports = function(env) {
     entry: './src/browser.js',
     output: {
       filename: '[name].js',
+      path: path.resolve(__dirname, 'public/js'),
       publicPath: '/js/',
     },
 

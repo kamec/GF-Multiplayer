@@ -1,13 +1,11 @@
 const fs = require('fs');
 const path = require('path');
 const program = require('commander');
-const builder = require('./matrixBuilder');
 const utils = require('./utils');
 
 const DIR = path.join(__dirname, 'generators');
 const DEFAULT_OUT = path.join(__dirname, '..', 'tmp');
-const EWRONGTYPE = 'Invalid polynomial basis type. Only ESP, trinomials and pentanomials are supported.';
-const EWRONGLANG = 'Invalid algorithms name or language. Check supported section.';
+const E_WRONG_ALG = 'Invalid algorithms name. Check supported section.';
 
 (function() {
   process.on('exit', err => {
@@ -18,7 +16,7 @@ const EWRONGLANG = 'Invalid algorithms name or language. Check supported section
   });
 
   program.version('0.0.1')
-    .description('Supported algorithms and languages: \r\n\t' + getSupportedGenerators())
+    .description(`Supported algorithms and languages: \r\n\t${getSupportedGenerators()}`)
     .option('-a, --algorithm <algorithm>', 'multiplier algorithm', 'reih-maz')
     .option('-l, --language <language>', 'language for output code', 'c_def')
     .option('-n, --name <name>', 'name for output file', 'out')
@@ -42,33 +40,31 @@ const EWRONGLANG = 'Invalid algorithms name or language. Check supported section
   }
 
   const file = path.join(out, fileName);
-  const Q = builder.initReductionMatrix(polynomial);
-  if (Q.length === 0) {
-    process.exit(EWRONGTYPE);
+  try {
+    const builder = loadModule(algorithm);
+    const result = builder(polynomial, language);
+  } catch (err) {
+    process.exit(err.message);
   }
 
-  if (language === 'plain') {
-    fs.writeFileSync(file, utils.stringifyMatrix(Q));
-  } else {
-    const size = Q[0].length;
-    fs.writeFileSync(file, loadMultiplier(algorithm, language)(utils.prepareMatrix(Q), size));
-  }
-
+  fs.writeFileSync(file, result.data);
   console.log('Done');
 }());
 
 function getSupportedGenerators() {
-  return fs.readdirSync(DIR).map(algorithm => getSupprotedLanguages(algorithm)).join(',\r\n\t\t');
+  return fs.readdirSync(DIR).filter(file => fs.lstatSync(path.join(DIR, file)).isDirectory()).map(algorithm => getSupprotedLanguages(algorithm)).join(',\r\n\t\t');
 };
 
 function getSupprotedLanguages(dirName) {
   return `${dirName}: [${fs.readdirSync(path.join(DIR, dirName)).map(lang => lang.replace(/.js$/, '')).join(', ')}]`;
 };
 
-function loadMultiplier(algorithm, language) {
-  const filePath = path.join(__dirname, 'generators', algorithm, language + '.js');
-  if (!fs.lstatSync(filePath).isFile()) {
-    program.exit(EWRONGLANG);
+function loadModule(algorithm) {
+  try {
+    const filePath = path.join(__dirname, 'generators', algorithm, 'index.js');
+    return require(filePath);
+  } catch (err) {
+    console.log(err);
+    throw new Error(E_WRONG_ALG);
   }
-  return require(filePath);
 };

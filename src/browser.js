@@ -1,19 +1,27 @@
-const library = require('../tmp/generators.json');
-const builder = require('./matrixBuilder');
+const library = require('./generators/generators.json');
 const utils = require('./utils');
 
 const selMult = document.querySelector('.select--multiplier');
 const selLang = document.querySelector('.select--language');
 const btnGenerate = document.querySelector('.button--generate');
+const btnClear = document.querySelector('.button--clear');
 const btnDownload = document.querySelector('.button--download');
 const input = document.querySelector('.input--polynomial');
 const output = document.querySelector('.generated-code');
+
+const E_WRONG_INPUT = 'ERROR: Check your inputs.\r\n\tYou should choose algorithm and language for generated code.\r\n\tPolinomial should be provided only in binary representation.';
 
 const generators = library.supported;
 selMult.onchange = handle;
 generators.forEach(gen => initializeMultSelect(selMult, gen));
 
 btnGenerate.onclick = generateCode;
+
+btnClear.onclick = () => {
+  output.textContent = '';
+  btnClear.disabled = true;
+  btnDownload.disabled = true;
+};
 
 function handle(event) {
   const val = event.target.value;
@@ -40,41 +48,33 @@ function createOption(content) {
 }
 
 function generateCode() {
-  const isBinary = /^1[01]+1$/g;
   const multIdx = selMult.selectedIndex;
   const langIdx = selLang.selectedIndex;
 
-  if (multIdx === -1 || langIdx === -1 || !isBinary.test(input.value)) {
-    output.textContent = 'ERROR: Check your inputs.\r\n' +
-      '\tYou should choose algorithm and language for generated code.\r\n' +
-      '\tPolinomial should be provided only in binary representation.';
+  if (multIdx === -1 || langIdx === -1) {
+    output.textContent = E_WRONG_INPUT;
     return;
   }
 
   const generatorAlg = selMult.options[multIdx].value;
   const lang = selLang.options[langIdx].value;
-  const Q = builder.initReductionMatrix(input.value);
+  const builder = require(`./generators/${generatorAlg}/index.js`);
 
-  if (Q.length === 0) {
-    output.textContent = 'ERROR: Invalid polynomial basis type:\r\n' +
-      '\tOnly ESP, trinomials and pentanomials are supported.';
-    return;
+  try {
+    output.textContent = builder(input.value, lang);
+  } catch(e) {
+    output.textContent = e.message;
   }
-
-  const size = Q[0].length;
-
-  const generator = require(`./generators/${generatorAlg}/${lang}.js`);
-  output.textContent = generator(utils.prepareMatrix(Q), size);
+  btnClear.disabled = false;
   btnDownload.disabled = false;
   btnDownload.onclick = saveTextAsFile.bind(this, lang);
 }
 
 function saveTextAsFile(lang) {
   const textFileAsBlob = new Blob([output.textContent], { type: 'text/plain' });
-  const fileNameToSaveAs = utils.resolveFilename(lang);
 
   const downloadLink = document.createElement('a');
-  downloadLink.download = fileNameToSaveAs;
+  downloadLink.download = utils.resolveFilename(lang);;
   downloadLink.href = window.URL.createObjectURL(textFileAsBlob);
   downloadLink.onclick = event => document.body.removeChild(event.target);
   downloadLink.style.display = 'none';

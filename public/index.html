@@ -7,25 +7,28 @@
   </head>
   <body>
     <div class="wrapper">
-      <form id="generator-options" action="">
-        <div class="select--group">
+      <section class="generator-options">
+        <div class="group">
           <label for="multipliers">Choose multiplier algorithm:</label>
           <select class="select select--multiplier" name="multipliers">
             <option disabled hidden selected="selected" value=""></option>
           </select>
         </div>
-        <div class="select--group">
+        <div class="group">
           <label for="generators">Choose generated language:</label>
           <select class="select select--language" name="generators"></select>
         </div>
-        <div class="select--group">
+        <div class="group">
           <label for="polinomial">Enter monic irreducible polynomial base 2:</label>
           <input class="input input--polynomial" name="polinomial">
         </div>
-        <button class="button button--generate" type="button">Generate</button>
-      </form>
+        <div class="group">
+          <button class="button button--generate" type="button">Generate</button>
+          <button class="button button--clear" type="button" disabled="disabled">Clear</button>
+          <button class="button button--download" type="button" disabled="disabled">Download</button>
+        </div>
+      </section>
       <textarea class="generated-code" name="generated-code" readonly="readonly" wrap="off"></textarea>
-      <button class="button button--download" type="button" disabled="disabled">Download</button>
     </div>
     <script src="js/main.js" charset="utf-8"></script>
   </body>
