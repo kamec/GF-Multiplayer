@@ -17,7 +17,8 @@ module.exports = function(p, language) {
   } catch (err) {
     throw new Error(E_WRONG_LANG);
   }
-  return module(utils.prepareMatrix(Q), size);
+  
+  return language === 'matrix'? module(utils.stringifyMatrix(Q)) : module(utils.prepareMatrix(Q), size);
 }
 
 function initReductionMatrix(p) {

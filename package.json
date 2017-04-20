@@ -14,9 +14,8 @@
     "gen:all": "npm run gen:c_func & npm run gen:c_def & npm run gen:java & npm run gen:pascal & npm run gen:verilog",
     "make:json": "node task-build-json.js",
     "make:clean": "node task-clean.js",
-    "serve": "webpack-dev-server --env.Dev",
     "build": "npm run make:clean && npm run make:json && webpack --env",
-    "start": "npm run serve"
+    "start": "webpack-dev-server --env.Dev"
   },
   "repository": {
     "type": "git"
@@ -24,7 +23,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "big-integer": "^1.6.17"
+    "big-integer": "^1.6.17",
+    "code-mirror": "^4.0.1",
+    "codemirror": "^5.25.0"
   },
   "devDependencies": {
     "babel-cli": "^6.24.0",

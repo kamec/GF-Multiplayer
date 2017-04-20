@@ -50,3 +50,7 @@
   height: 40rem;
   width: calc(35rem - 4px - 1.6px);
 }
+
+.CodeMirror {
+  height: 40rem;
+}

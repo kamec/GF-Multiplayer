@@ -1,3 +1,9 @@
+const python = require('codemirror/mode/python/python');
+const verilog = require('codemirror/mode/verilog/verilog');
+const pascal = require('codemirror/mode/pascal/pascal');
+const c_def = require('codemirror/mode/clike/clike');
+const codeMirror = require('codemirror');
+
 const library = require('./generators/generators.json');
 const utils = require('./utils');
 
@@ -7,18 +13,26 @@ const btnGenerate = document.querySelector('.button--generate');
 const btnClear = document.querySelector('.button--clear');
 const btnDownload = document.querySelector('.button--download');
 const input = document.querySelector('.input--polynomial');
-const output = document.querySelector('.generated-code');
+
+let output = codeMirror.fromTextArea(document.querySelector('.generated-code'), {
+  theme: 'icecoder',
+  readOnly: true,
+  matchBrackets: true,
+  linewrapping: false,
+  lineNumbers: true,
+  cursorBlinkRate: -1,
+  tabSize: 2,
+});
 
 const E_WRONG_INPUT = 'ERROR: Check your inputs.\r\n\tYou should choose algorithm and language for generated code.\r\n\tPolinomial should be provided only in binary representation.';
 
 const generators = library.supported;
 selMult.onchange = handle;
+
 generators.forEach(gen => initializeMultSelect(selMult, gen));
-
 btnGenerate.onclick = generateCode;
-
 btnClear.onclick = () => {
-  output.textContent = '';
+  output.setValue('');
   btnClear.disabled = true;
   btnDownload.disabled = true;
 };
@@ -50,20 +64,22 @@ function createOption(content) {
 function generateCode() {
   const multIdx = selMult.selectedIndex;
   const langIdx = selLang.selectedIndex;
-
   if (multIdx === -1 || langIdx === -1) {
-    output.textContent = E_WRONG_INPUT;
+    output.setValue(E_WRONG_INPUT);
     return;
   }
-
   const generatorAlg = selMult.options[multIdx].value;
   const lang = selLang.options[langIdx].value;
   const builder = require(`./generators/${generatorAlg}/index.js`);
-
   try {
-    output.textContent = builder(input.value, lang);
-  } catch(e) {
-    output.textContent = e.message;
+    if (/^c_|java|matrix/.test(lang)) {
+      output.setOption('mode', 'clike');
+    } else {
+      output.setOption('mode', lang);
+    }
+    output.setValue(builder(input.value, lang));
+  } catch (e) {
+    output.setValue(e.message);
   }
   btnClear.disabled = false;
   btnDownload.disabled = false;
@@ -71,14 +87,14 @@ function generateCode() {
 }
 
 function saveTextAsFile(lang) {
-  const textFileAsBlob = new Blob([output.textContent], { type: 'text/plain' });
-
+  const textFileAsBlob = new Blob([output.getValue()], {
+    type: 'text/plain'
+  });
   const downloadLink = document.createElement('a');
   downloadLink.download = utils.resolveFilename(lang);;
   downloadLink.href = window.URL.createObjectURL(textFileAsBlob);
   downloadLink.onclick = event => document.body.removeChild(event.target);
   downloadLink.style.display = 'none';
   document.body.appendChild(downloadLink);
-
   downloadLink.click();
 }

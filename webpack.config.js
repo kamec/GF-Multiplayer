@@ -1,16 +1,14 @@
 'use strict';
 const webpack = require('webpack');
 const path = require('path');
-
 module.exports = function(env) {
-  return {
+  const config = {
     entry: './src/browser.js',
     output: {
       filename: '[name].js',
       path: path.resolve(__dirname, 'public/js'),
       publicPath: '/js/',
     },
-
     module: {
       rules: [
         {
@@ -27,33 +25,27 @@ module.exports = function(env) {
         }
       ],
     },
-
     watch: env.Dev,
-
     watchOptions: {
       aggregateTimeout: 100
     },
-
-    devtool: env.Dev ? 'cheap-inline-module-source-map' : false,
-
     plugins: [
       new webpack.NoEmitOnErrorsPlugin(),
-      new webpack.optimize.UglifyJsPlugin({
-        compress: {
-          warnings: false,
-        }
-      }),
     ],
-
     resolve: {
       modules: [
         'node_modules',
       ],
     },
-
     devServer: {
       contentBase: path.resolve(__dirname, 'public'),
       port: 5000,
     },
   }
+  
+  if (!env.Dev) {
+    config.plugins.push(new webpack.optimize.UglifyJsPlugin({ compress: { warnings: false, } }));
+  }
+  
+  return config;
 }

@@ -43,12 +43,12 @@ const E_WRONG_ALG = 'Invalid algorithms name. Check supported section.';
   try {
     const builder = loadModule(algorithm);
     const result = builder(polynomial, language);
+    fs.writeFileSync(file, result);
+    console.log('Done');
   } catch (err) {
     process.exit(err.message);
   }
 
-  fs.writeFileSync(file, result.data);
-  console.log('Done');
 }());
 
 function getSupportedGenerators() {
