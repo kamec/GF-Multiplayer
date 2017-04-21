@@ -13,22 +13,22 @@ const generateCode = function(Q, size) {
 
 function generateStatic() {
   let result = '';
-  result += 'program Generator;\r\n';
+  result += 'program GFMultiplier;\r\n';
   result += '\r\n';
-  result += 'function calculate(vect_A, vect_B: integer): integer;\r\n';
+  result += 'function calculate(vect_A, vect_B: uint64): uint64;\r\n';
   result += 'begin\r\n';
   return result;
 };
 
 function generateSplittingArray(size) {
   let result = '';
-  result += `\tvar arPos: array [0..${size-1}] of integer := (`;
+  result += `\tvar arPos: array [0..${size-1}] of uint64 := (`;
   for (let i = 0; i < size; i++) {
     result += `${BigInt(2).pow(i)}${i < size - 1 ? ', ' : ''}`;
   }
   result += `);\r\n`;
-  result += `\tvar a: array [0..${size-1}] of integer;\r\n`;
-  result += `\tvar b: array [0..${size-1}] of integer;\r\n`;
+  result += `\tvar a: array [0..${size-1}] of byte;\r\n`;
+  result += `\tvar b: array [0..${size-1}] of byte;\r\n`;
   return result;
 };
 
@@ -47,8 +47,8 @@ function splitter(letter) {
 
 function generateTeplitsMatricesBuilding(size) {
   let result = '';
-  result += `\tvar d: array [0..${size-1}] of integer;\r\n`;
-  result += `\tvar e: array [0..${size-2}] of integer;\r\n`;
+  result += `\tvar d: array [0..${size-1}] of byte;\r\n`;
+  result += `\tvar e: array [0..${size-2}] of byte;\r\n`;
   result += `\r\n`;
 
   result += `\tfor var i := 0 to ${size-1} do\r\n`;
@@ -70,7 +70,7 @@ function generateTeplitsMatricesBuilding(size) {
 
 function generateResultVectorCalculation(preparedMatrix, size) {
   let result = '';
-  result += `\tvar c: array [0..${size-1}] of integer;\r\n`;
+  result += `\tvar c: array [0..${size-1}] of uint64;\r\n`;
   for (let i = 0; i < size; i++) {
     result += `\tc[${i}] := (d[${i}]`;
     preparedMatrix[i].forEach(position => result += ` xor e[${position}]`);

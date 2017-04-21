@@ -52,7 +52,7 @@
   };
 
   module.exports.resolveFilename = function(lang, name) {
-    return (lang === 'java') ? 'Generator.java' : `${name || 'out'}.${resolveExtension(lang)}`;
+    return (lang === 'java') ? 'GFMultiplier.java' : `${name || 'out'}.${resolveExtension(lang)}`;
   };
 
   function resolveExtension(lang) {

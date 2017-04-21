@@ -13,7 +13,7 @@ const generateCode = function(Q, size) {
 
 function generateStatic() {
   let result = '';
-  result += 'class Generator:\r\n';
+  result += 'class GFMultiplier:\r\n';
   result += '\tdef calculate(self, A: int, B: int):\r\n';
   return result;
 };
@@ -72,6 +72,10 @@ function generateMultiplicationResult(size) {
 
   result += `\t\tprint("{0:b}".format(C))\r\n`
   result += `\t\treturn "{0:b}".format(C)\r\n`
+  result += `if __name__ == '__main__':`;
+  result += `\tresult = []`;
+  result += `\tresult.append(GFMultiplier().calculate(int('101001', 2), int('100101', 2)))`;
+  
   return result;
 };
 

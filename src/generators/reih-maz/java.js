@@ -14,7 +14,7 @@ const generateCode = function(Q, size) {
 function generateStatic() {
   let result = '';
   // result += `package com.autogen.generator;\r\n`;
-  result += `public class Generator {\r\n`;
+  result += `public class GFMultiplier {\r\n`;
   result += `\tpublic static long calculate(long A, long B) {\r\n`;
   return result;
 }

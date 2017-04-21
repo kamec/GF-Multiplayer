@@ -2,23 +2,30 @@ module.exports = function doWork(p, a, b) {
   if (a.length >= p.length || b.length >= p.length) {
     throw new Error('Wrong args length.');
   }
+  const m = Math.pow(2, p.length - 1); 
+  p = parseInt(reverse(p), 2);
   a = reverse(a);
   b = reverse(b);
-  p = parseInt(reverse(p), 2);
   return performCalc(parseInt(a, 2), parseInt(b, 2), a.length);
 
-  function performCalc(x, y, n) {
-    let c = (x & 1 === 1) ? y : 0;
-    for (let i = 1; i < n; i++) {
-      y = y << 1;
-      if (y >= p) {
-        y = y ^ p;
+  function performCalc(A, B, n) {
+    let C = (A & 1 === 1) ? B : 0;
+    console.log(A, B, n, C);
+    while (A > 0) {
+      B = B << 1;
+      console.log('shift B', B);
+      if (B >= m) {
+        B = B ^ p;
+        console.log('B mod p', B);
       }
-      if (x >> i & 1 === 1) {
-        c = c ^ y;
+      A = A >> 1;
+      console.log('A', A & 1);
+      if (A & 1 === 1) {
+        C = C ^ B;
+        console.log('C', C);
       }
     }
-    return c;
+    return C//.toString(2);
   }
 
   function reverse(x) {
@@ -26,3 +33,4 @@ module.exports = function doWork(p, a, b) {
   }
 }
 //11001.1010.0110
+//1010101.100101.101001
