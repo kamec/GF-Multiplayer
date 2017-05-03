@@ -17,10 +17,7 @@ module.exports = function(p, language) {
 
   const arr = p.split('.');
   if (language === 'javas_bin') {
-    const P = parseInt(p, 2);
-    let result = (module(parseInt(reverse(arr[1]), 2), parseInt(reverse(arr[2]), 2), 0));
-    console.log(result);
-    return modulo(result, P).toString(2);
+    return module(arr[0], arr[1], arr[2]);
   }
   if (language === 'javas_dec') {
     return '' + module(parseInt(arr[0], 2), parseInt(arr[1], 2));
@@ -29,22 +26,4 @@ module.exports = function(p, language) {
   return module(p);
 }
 
-function reverse(x) {
-  return Array.from(x).reverse().join('');
-}
 
-function modulo(a, b) {
-  while (a.toString(2).length >= b.toString(2).length) {
-    a = a ^ equalize(a, b);
-  }
-  return a;
-}
-
-function equalize(a, b) {
-  const A = a.toString(2).length;
-  const B = b.toString(2).length;
-  if (A > B) {
-    b = b << (A - B);
-  }
-  return b;
-}
