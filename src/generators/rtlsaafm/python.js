@@ -1,7 +1,7 @@
 module.exports = function generateCode(p) {
   let result = `class GFMultiplier:
     def calculate(self, A: int, B: int):
-      p = ${parseInt(p,2)}
+      p = ${parseInt(p, 2)}
       m = ${Math.pow(2, p.length - 1)}
       C = 0;
       

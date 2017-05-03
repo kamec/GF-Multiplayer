@@ -10,19 +10,19 @@ module.exports = function doWork(p, a, b) {
 
   function performCalc(A, B, n) {
     let C = (A & 1 === 1) ? B : 0;
-    console.log(A, B, n, C);
+    console.log(A.toString(2), B.toString(2), n, C.toString(2));
     while (A > 0) {
       B = B << 1;
-      console.log('shift B', B);
+      console.log('shift B', B.toString(2));
       if (B >= m) {
         B = B ^ p;
-        console.log('B mod p', B);
+        console.log('B mod p', B.toString(2));
       }
       A = A >> 1;
-      console.log('A', A & 1);
+      console.log('A', A.toString(2));
       if (A & 1 === 1) {
         C = C ^ B;
-        console.log('C', C);
+        console.log('C', C.toString(2));
       }
     }
     return C//.toString(2);

@@ -1,7 +1,7 @@
 module.exports = function generateCode(p) {
   let result = `public class GFMultiplier {
     public static long calculate(long A, long B) {
-      long P = ${parseInt(p,2)};
+      long P = ${parseInt(p, 2)};
       long M = ${Math.pow(2, p.length - 1)};
       long C = 0;
       
@@ -20,6 +20,6 @@ module.exports = function generateCode(p) {
       return C;
     }
   }`;
-    
+
   return result;
 };

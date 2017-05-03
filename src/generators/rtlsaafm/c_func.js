@@ -21,7 +21,7 @@ module.exports = function generateCode(p) {
       }
     }
   
-    printf("%d\r\n", C);
+    printf("%d\\r\\n", C);
   	return C;
   }`;
   
