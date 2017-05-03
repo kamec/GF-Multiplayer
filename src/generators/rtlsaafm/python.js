@@ -3,7 +3,7 @@ module.exports = function generateCode(p) {
     def calculate(self, A: int, B: int):
       p = ${parseInt(p, 2)}
       m = ${Math.pow(2, p.length - 1)}
-      C = 0;
+      C = 0
       
       while A > 0:
         if A & 1 == 1:
