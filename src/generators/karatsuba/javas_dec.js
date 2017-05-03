@@ -1,6 +1,5 @@
 module.exports = function karatsubaMulti(A, B) {
   const n = Math.min(('' + A).length, ('' + B).length);
-  console.log(A, B, n);
   if (n === 1) {
     return A * B;
   }

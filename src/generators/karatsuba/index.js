@@ -19,30 +19,27 @@ module.exports = function(p, language) {
   if (language === 'javas_bin') {
     const P = parseInt(p, 2);
     let result = (module(parseInt(reverse(arr[1]), 2), parseInt(reverse(arr[2]), 2), 0));
-    return truncate(result, P).toString(2);
+    return modulo(result, P).toString(2);
   }
-  if (language === 'javas') {
+  if (language === 'javas_dec') {
     return '' + module(parseInt(arr[0], 2), parseInt(arr[1], 2));
   }
 
   return module(p);
-
 }
 
 function reverse(x) {
   return Array.from(x).reverse().join('');
 }
 
-function truncate(a, b) {
-  console.log(`*********************************\r\n${a.toString(2)} mod ${b.toString(2)}`);
+function modulo(a, b) {
   while (a.toString(2).length >= b.toString(2).length) {
-    a = a ^ longate(a, b);
-    console.log(`*********************************\r\n${a.toString(2)} mod ${b.toString(2)}`);
+    a = a ^ equalize(a, b);
   }
   return a;
 }
 
-function longate(a, b) {
+function equalize(a, b) {
   const A = a.toString(2);
   const B = b.toString(2);
   if (A.length > B.length) {
