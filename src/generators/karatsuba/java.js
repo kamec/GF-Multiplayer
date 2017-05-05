@@ -1,5 +1,6 @@
 module.exports = function generateCode(p) {
   let result = `public class GFMultiplier {
+    
   public static long karatsuba_mult(long A, long B) {
     long P = Long.parseLong("${p}", 2);
     long result = GFMultiplier.modulo(GFMultiplier.calculate(A, B), P);
@@ -7,20 +8,15 @@ module.exports = function generateCode(p) {
     return result;
   }
 
-  private static long modulo(long a, long b) {
-    while (Long.toString(a, 2).length() >= Long.toString(b, 2).length()){
-      a = a ^ GFMultiplier.equalize(a, b);
+  private static long modulo(long A, long B) {
+    long B_len = Long.toString(B, 2).length();
+    long A_len = Long.toString(A, 2).length();
+    
+    while (A_len >= B_len){
+      A = A ^ (B << (A_len - B_len));
+      A_len = Long.toString(A, 2).length();
     }
     return a;
-  }
-
-  private static long equalize(long a,long b) {
-    long A = Long.toString(a, 2).length();
-    long B = Long.toString(b, 2).length();
-    if (A > B) {
-      return b << (A - B);
-    }
-    return b;
   }
 
   private static long calculate(long A, long B) {

@@ -1,15 +1,14 @@
 //00100010.01001110
 //1010101.100101.101001
 
-
 module.exports = function calc(p, A, B) {
   const P = parseInt(p, 2);
-  let result = (karatsubaMulti(parseInt(reverse(A), 2), parseInt(reverse(B), 2)));
+  let result = karatsubaMulti(parseInt(reverse(A), 2), parseInt(reverse(B), 2));
   return modulo(result, P).toString(2);
-} 
+}
 
 function karatsubaMulti(A, B) {
-  const n = Math.max((A.toString(2)).length, (B.toString(2)).length);
+  const n = Math.max(A.toString(2).length, B.toString(2).length);
   if (n === 1) {
     return A & B;
   }
@@ -33,18 +32,14 @@ function reverse(x) {
   return Array.from(x).reverse().join('');
 }
 
-function modulo(a, b) {
-  while (a.toString(2).length >= b.toString(2).length) {
-    a = a ^ equalize(a, b);
+function modulo(A, B) {
+  const B_len = B.toString(2).length;
+  let A_len = A.toString(2).length
+  
+  while (A_len >= B_len) {
+    A = A ^ (B << (A_len - B_len));
+    A_len = A.toString(2).length;
   }
-  return a;
-}
-
-function equalize(a, b) {
-  const A = a.toString(2).length;
-  const B = b.toString(2).length;
-  if (A > B) {
-    return b << (A - B);
-  }
-  return b;
+  
+  return A;
 }

@@ -2,21 +2,17 @@ module.exports = function generateCode(p) {
   let result = `class GFMultiplier:
   def karatsuba_mult(self, A: int, B: int):
     P = int('${p}', 2)
-    result = '{0:b}'.format(self.modulo(self.calculate(A, B), P))
-    print(result)
+    result = self.modulo(self.calculate(A, B), P)
+    print('{0:b}'.format(result))
     return result
   
   def modulo(self, a: int, b: int):
-    while (len('{0:b}'.format(a)) >= len('{0:b}'.format(b))):
-      a = a ^ self.equalize(a, b)
+    B_len = len('{0:b}'.format(b))
+    A_len = len('{0:b}'.format(a))
+    while (A_len >= B_len):
+      a = a ^ (b << (A_len - B_len))
+      A_len = len('{0:b}'.format(a))
     return a
-
-  def equalize(self, a: int, b: int):
-    A = len('{0:b}'.format(a))
-    B = len('{0:b}'.format(b))
-    if (A > B):
-      b = b << (A - B)
-    return b
 
   def calculate(self, A: int, B: int):
     n = max(len('{0:b}'.format(A)), len('{0:b}'.format(B)))
