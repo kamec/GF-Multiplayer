@@ -16,7 +16,7 @@ module.exports = function generateCode(p) {
       A = A ^ (B << (A_len - B_len));
       A_len = Long.toString(A, 2).length();
     }
-    return a;
+    return A;
   }
 
   private static long calculate(long A, long B) {

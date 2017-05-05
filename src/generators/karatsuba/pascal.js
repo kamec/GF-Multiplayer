@@ -3,16 +3,12 @@ module.exports = function generateCode(p) {
   
 function getBinaryLength(n: uint64): uint64;
 begin
-  if n < 2 then
-    getBinaryLength := 1
-  else begin
-    var length := 0;
-    while n > 0 do begin
-      length := length + 1;
-      n := n shr 1;
-    end;
-    getBinaryLength := length;
+  var length := 1;
+  while n > 1 do begin
+    length := length + 1;
+    n := n shr 1;
   end;
+  getBinaryLength := length;
 end;
 
 function modulo(a, b: uint64): uint64;
