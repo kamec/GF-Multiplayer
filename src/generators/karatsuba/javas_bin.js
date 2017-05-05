@@ -44,7 +44,7 @@ function equalize(a, b) {
   const A = a.toString(2).length;
   const B = b.toString(2).length;
   if (A > B) {
-    b = b << (A - B);
+    return b << (A - B);
   }
   return b;
 }
