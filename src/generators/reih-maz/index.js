@@ -11,14 +11,15 @@ module.exports = function(p, language) {
   }
 
   const size = Q[0].length;
-  let module;
   try {
-    module = require(`./${language}.js`);
+    let module = require(`./${language}.js`);
+    return language === 'matrix' 
+      ? module(utils.stringifyMatrix(Q)) 
+      : module(utils.prepareMatrix(Q), size);
   } catch (err) {
     throw new Error(E_WRONG_LANG);
   }
   
-  return language === 'matrix'? module(utils.stringifyMatrix(Q)) : module(utils.prepareMatrix(Q), size);
 }
 
 function initReductionMatrix(p) {
