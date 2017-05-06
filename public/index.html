@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>GF Multiplier</title>
+    <title>Умножители в полях Галуа</title>
     <link rel="stylesheet" href="codemirror.css">
     <link rel="stylesheet" href="icecoder.css">
     <link rel="stylesheet" href="styles.css">
@@ -10,28 +10,51 @@
   </head>
   <body>
     <div class="wrapper">
+      <aside class="reference">
+        <h2>Справка</h2>
+        <article class="article article--reference">
+          <p>Для того чтобы получить результат, выполните следующие действия:</p>
+          <ol class="algorithms">
+            <li>Выберите алгоритм умножения, реализацию которого вы хотете получить.
+              <ul>
+                <li>"simple" - алгоритм right-to-left shift-and-add.</li>
+                <li>"reyhani-masoleh" - алгоритм Рейхани-Мазолеха, использующий матрицы для быстрого умножения.</li>
+                <li>"karatsuba" - алгоритм двоичного умножения Карацубы-Офмана.</li>
+              </ul>
+            </li>
+            <li>Выберите язык реализации алгоритма.</li>
+            <li>Укажите образующий полином поля Галуа, в котором будет производиться умножение.</li>
+          </ol>
+        </article>
+      </aside>
+      
+      
       <section class="generator-options">
+        <h1>Генерация кода для автоматизации построения умножителя в поле Галуа.</h1>
         <div class="group">
-          <label for="multipliers">Choose multiplier algorithm:</label>
+          <label for="multipliers">Алгоритм умножителя:</label>
           <select class="select select--multiplier" name="multipliers">
             <option disabled hidden selected="selected" value=""></option>
           </select>
         </div>
+
         <div class="group">
-          <label for="generators">Choose generated language:</label>
+          <label for="generators">Язык реализации умножителя:</label>
           <select class="select select--language" name="generators"></select>
         </div>
+
         <div class="group">
-          <label for="polinomial">Enter monic irreducible polynomial base 2:</label>
-          <input class="input input--polynomial" name="polinomial">
+          <label for="polinomial">Образующий полином в двоичном представлении:</label>
+          <input class="input input--polynomial" name="polinomial" title="Внимание: запись идет слева направо.">
         </div>
-        <div class="group">
-          <button class="button button--generate" type="button">Generate</button>
-          <button class="button button--clear" type="button" disabled="disabled">Clear</button>
-          <button class="button button--download" type="button" disabled="disabled">Download</button>
-        </div>
+
+        <nav class="group">
+          <button class="button button--generate" type="button">Сгенерировать</button>
+          <button class="button button--clear" type="button" disabled="disabled">Очистить</button>
+          <button class="button button--download" type="button" disabled="disabled">Скачать</button>
+        </nav>
+        <textarea class="generated-code" name="generated-code" readonly="readonly" wrap="off"></textarea>
       </section>
-      <textarea class="generated-code" name="generated-code" readonly="readonly" wrap="off"></textarea>
     </div>
   </body>
 </html>

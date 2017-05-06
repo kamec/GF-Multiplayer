@@ -17,7 +17,7 @@ const E_WRONG_ALG = 'Invalid algorithms name. Check supported section.';
   
   program.version('0.0.1')
     .description(`Supported algorithms and languages: \r\n\t${getSupportedGenerators()}`)
-    .option('-a, --algorithm <algorithm>', 'multiplier algorithm', 'reih-maz')
+    .option('-a, --algorithm <algorithm>', 'multiplier algorithm', 'reyhani-masoleh')
     .option('-l, --language <language>', 'language for output code', 'c_def')
     .option('-n, --name <name>', 'name for output file', 'out')
     .option('-o, --out <absolute path>', 'path for output folder', DEFAULT_OUT)

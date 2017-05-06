@@ -4,9 +4,11 @@
   bottom: 0;
   left: 0;
   right: 0;
-  margin: auto;
+  /*margin: auto;*/
   display: flex;
-  flex-flow: column nowrap;
+  flex-flow: column wrap;
+  justify-content: space-around;
+  align-items: center;
   width: 35rem;
   min-width: 560px;
 }
@@ -23,15 +25,27 @@
 .button {
   align-self: flex-end;
   width: 10rem;
-  height: 2rem;
+  height: 1.5rem;
+}
+
+.reference {
+  width: 25rem;
+  padding-right: 5rem;
+  padding-left: 1rem;
+}
+
+.algorithms {
+  margin-left: 0.05rem;
 }
 
 .generator-options {
+  flex-basis: 100%; 
   display: flex;
   flex-flow: column nowrap;
   justify-content: flex-start;
   align-items: stretch;
   width: 35rem;
+  height: 20rem;
   min-width: 560px;
   padding-top: 1.25rem;
   padding-bottom: 0.9375rem;
