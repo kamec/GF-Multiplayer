@@ -28,26 +28,57 @@
 .reference {
   transition-property: all;
   transition-duration: 2s;
+  transition-duration: 1s;
+  transition-timing-function: ease;
+  
   position: fixed;
+  right: 5rem;
   bottom: 0;
+  
+  border: 3px ridge #CCC;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  border-bottom: none;
+  
   width: 7rem;
   height: 2rem;
   background-color: #EEE;
   /*opacity: 0.05;*/
+
   z-index: 9999;
 }
 
 .reference:hover {
   transition-property: all;
   transition-duration: 2s;
+  transition-duration: 1s;
+  transition-timing-function: ease;
+  
   width: 25rem;
   height: 20rem;
   padding-left: 10px;  
+  height: 25rem;
+  padding-left: 10px;
+}
+
+.article--reference {
+  transition-property: all;
+  transition-duration: 0.5s;
+  
+  opacity: 0.0;
+}
+
+.reference:hover .article--reference {
+  transition-property: all;
+  transition-delay: 1s;
+
+  opacity: 1.0;
 }
 
 .algorithms {
   margin-left: 0.05rem;
 }
+
 
 .generator-options {
   flex-grow: 0;
@@ -61,6 +92,7 @@
   
   align-items: stretch;
   height: 95vh;
+  max-width: 560px;
 }
 
 .group {
