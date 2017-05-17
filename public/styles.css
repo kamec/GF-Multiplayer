@@ -25,9 +25,18 @@
   height: 1.5rem;
 }
 
+.group--locale {
+  position: fixed;
+  right: 5rem;
+  top: 0;
+}
+
+.select--locale {
+  width: 2.5rem;
+}
+
 .reference {
   transition-property: all;
-  transition-duration: 2s;
   transition-duration: 1s;
   transition-timing-function: ease;
   
@@ -43,20 +52,16 @@
   width: 7rem;
   height: 2rem;
   background-color: #EEE;
-  /*opacity: 0.05;*/
 
   z-index: 9999;
 }
 
 .reference:hover {
   transition-property: all;
-  transition-duration: 2s;
   transition-duration: 1s;
   transition-timing-function: ease;
   
   width: 25rem;
-  height: 20rem;
-  padding-left: 10px;  
   height: 25rem;
   padding-left: 10px;
 }
@@ -84,12 +89,12 @@
   flex-grow: 0;
   flex-shrink: 2;
   flex-basis: 560px;
-  
+
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
   justify-content: flex-start;
-  
+
   align-items: stretch;
   height: 95vh;
   max-width: 560px;

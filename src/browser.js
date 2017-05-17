@@ -5,14 +5,16 @@ const c_def = require('codemirror/mode/clike/clike');
 const codeMirror = require('codemirror');
 
 const library = require('./generators/generators.json');
+const locales = require('./locales.json');
 const utils = require('./utils');
 
-const selMult = document.querySelector('.select--multiplier');
+const selLocale = document.querySelector('.select--locale');
+const selAlg = document.querySelector('.select--algorithm');
 const selLang = document.querySelector('.select--language');
+const input = document.querySelector('.input--polynomial');
 const btnGenerate = document.querySelector('.button--generate');
 const btnClear = document.querySelector('.button--clear');
 const btnDownload = document.querySelector('.button--download');
-const input = document.querySelector('.input--polynomial');
 
 let output = codeMirror.fromTextArea(document.querySelector('.generated-code'), {
   theme: 'icecoder',
@@ -24,12 +26,12 @@ let output = codeMirror.fromTextArea(document.querySelector('.generated-code'), 
   tabSize: 2,
 });
 
-const E_WRONG_INPUT = 'ERROR: Check your inputs.\r\n\tYou should choose algorithm and language for generated code.\r\n\tPolinomial should be provided only in binary representation.';
+let E_WRONG_INPUT = '';
 
 const generators = library.supported;
-selMult.onchange = handle;
+selAlg.onchange = handleAlgirithmSelection;
 
-generators.forEach(gen => initializeMultSelect(selMult, gen));
+generators.forEach(gen => initializeMultSelect(selAlg, gen));
 btnGenerate.onclick = generateCode;
 btnClear.onclick = () => {
   output.setValue('');
@@ -37,7 +39,10 @@ btnClear.onclick = () => {
   btnDownload.disabled = true;
 };
 
-function handle(event) {
+initializeLocaleSelect(selLocale, locales);
+selLocale.onchange = changeLocale;
+
+function handleAlgirithmSelection(event) {
   const val = event.target.value;
   initializeLangSelect(selLang, generators.find(alg => alg.name === val).supported);
 }
@@ -54,6 +59,11 @@ function initializeLangSelect(select, langs) {
   });
 }
 
+function initializeLocaleSelect(select, locales) {
+  select.innerHTML = '';
+  Object.keys(locales).forEach(locale => select.appendChild(createOption(locale)));
+}
+
 function createOption(content) {
   const option = document.createElement('option');
   option.innerHTML = content;
@@ -62,13 +72,13 @@ function createOption(content) {
 }
 
 function generateCode() {
-  const multIdx = selMult.selectedIndex;
+  const multIdx = selAlg.selectedIndex;
   const langIdx = selLang.selectedIndex;
   if (multIdx === -1 || langIdx === -1) {
     output.setValue(E_WRONG_INPUT);
     return;
   }
-  const generatorAlg = selMult.options[multIdx].value;
+  const generatorAlg = selAlg.options[multIdx].value;
   const lang = selLang.options[langIdx].value;
   const builder = require(`./generators/${generatorAlg}/index.js`);
   try {
@@ -97,4 +107,31 @@ function saveTextAsFile(lang) {
   downloadLink.style.display = 'none';
   document.body.appendChild(downloadLink);
   downloadLink.click();
+}
+
+function changeLocale(event) {
+  const locale = event.target.value;
+  
+  const {
+    header,
+    selectLoc,
+    selectAlg,
+    selectLang,
+    inputPoly,
+    btnGen,
+    btnClr,
+    btnDwnl,
+    errInput
+  } = locales[locale];
+  
+  
+  document.querySelector('.main--header').textContent = header;
+  document.querySelector('.label--locale').textContent = selectLoc;
+  document.querySelector('.label--algorithm').textContent = selectAlg;
+  document.querySelector('.label--language').textContent = selectLang;
+  document.querySelector('.label--polynomial').textContent = inputPoly;
+  document.querySelector('.button--generate').textContent = btnGen;
+  document.querySelector('.button--clear').textContent = btnClr;
+  document.querySelector('.button--download').textContent = btnDwnl;
+  E_WRONG_INPUT = errInput;
 }

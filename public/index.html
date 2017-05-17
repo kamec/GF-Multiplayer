@@ -31,19 +31,19 @@
       <section class="generator-options">
         <h1 class="header main--header">Генерация кода для автоматизации построения умножителя в поле Галуа.</h1>
         <div class="group">
-          <label for="multipliers">Алгоритм умножителя:</label>
-          <select class="select select--multiplier" name="multipliers">
+          <label class="label label--algorithm" for="algorithm">Алгоритм умножителя:</label>
+          <select class="select select--algorithm" name="algorithm">
             <option disabled hidden selected="selected" value=""></option>
           </select>
         </div>
 
         <div class="group">
-          <label for="generators">Язык реализации умножителя:</label>
+          <label class="label label--language" for="generators">Язык реализации умножителя:</label>
           <select class="select select--language" name="generators"></select>
         </div>
 
         <div class="group">
-          <label for="polinomial">Образующий полином в двоичном представлении:</label>
+          <label class="label label--polynomial" for="polinomial">Образующий полином в двоичном представлении:</label>
           <input class="input input--polynomial" name="polinomial" title="Внимание: запись идет слева направо.">
         </div>
 
@@ -54,6 +54,10 @@
         </nav>
         <textarea class="generated-code" name="generated-code" readonly="readonly" wrap="off"></textarea>
       </section>
+      <nav class="group--locale">
+        <label class="label label--locale" for="algorithm">Выберите язык:</label>
+        <select class="select select--locale" name="locale" />
+      </nav>
     </div>
   </body>
 </html>
