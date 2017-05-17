@@ -34,6 +34,7 @@ module.exports = function generateCode(p) {
     MM = self.calculate(AH ^ AL, BH ^ BL) ^ MH ^ ML;
     
     return MH << full ^ MM << half ^ ML
+
 if __name__ == '__main__':
   GFMultiplier().karatsuba_mult(int('101001', 2), int('100101', 2))`;
   
