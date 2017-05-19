@@ -17,10 +17,12 @@ const btnClear = document.querySelector('.button--clear');
 const btnDownload = document.querySelector('.button--download');
 const linkReference = document.querySelector('.reference-link');
 
-let defLocale = window.localStorage.getItem('defLocale') || locales[navigator.language.slice(0,2)] || 'en';
+let E_WRONG_INPUT = '';
+
+let defLocale = window.localStorage.getItem('defLocale') || locales[navigator.language.slice(0, 2)] || 'en';
 changeLocale(defLocale);
 
-let output = codeMirror.fromTextArea(document.querySelector('.generated-code'), {
+const output = codeMirror.fromTextArea(document.querySelector('.generated-code'), {
   theme: 'icecoder',
   readOnly: true,
   matchBrackets: true,
@@ -30,25 +32,25 @@ let output = codeMirror.fromTextArea(document.querySelector('.generated-code'), 
   tabSize: 2,
 });
 
-let E_WRONG_INPUT = '';
-
 const generators = library.supported;
 selAlg.onchange = handleAlgirithmSelection;
 
 generators.forEach(gen => initializeMultSelect(selAlg, gen));
 btnGenerate.onclick = generateCode;
-btnClear.onclick = () => {
+btnClear.onclick = clearOut;
+
+initializeLocaleSelect(selLocale, locales, defLocale);
+
+function clearOut() {
   output.setValue('');
   btnClear.disabled = true;
   btnDownload.disabled = true;
-};
-
-initializeLocaleSelect(selLocale, locales, defLocale);
-selLocale.onchange = event => changeLocale(event.target.value, defLocale);
+}
 
 function handleAlgirithmSelection(event) {
-  const val = event.target.value;
-  initializeLangSelect(selLang, generators.find(alg => alg.name === val).supported);
+  const algorithm = event.target.value;
+  const supported = generators.find(alg => alg.name === algorithm).supported
+  initializeLangSelect(selLang, supported);
 }
 
 function initializeMultSelect(select, generator) {
@@ -58,13 +60,13 @@ function initializeMultSelect(select, generator) {
 
 function initializeLangSelect(select, langs) {
   select.innerHTML = '';
-  langs.forEach(opt => {
-    select.appendChild(createOption(opt.name));
-  });
+  langs.forEach(opt => select.appendChild(createOption(opt.name)));
 }
 
 function initializeLocaleSelect(select, locales, defLocale) {
   select.innerHTML = '';
+  select.onchange = event => changeLocale(event.target.value, defLocale);
+
   Object.keys(locales).forEach(locale => {
     select.appendChild(createOption(locale));
     if (locale === defLocale) {
@@ -81,25 +83,26 @@ function createOption(content) {
 }
 
 function generateCode() {
-  const multIdx = selAlg.selectedIndex;
+  const algIdx = selAlg.selectedIndex;
   const langIdx = selLang.selectedIndex;
-  if (multIdx === -1 || langIdx === -1) {
+
+  if (algIdx === -1 || langIdx === -1) {
     output.setValue(E_WRONG_INPUT);
     return;
   }
-  const generatorAlg = selAlg.options[multIdx].value;
-  const lang = selLang.options[langIdx].value;
+
+  const generatorAlg = selAlg.options[algIdx].value;
   const builder = require(`./generators/${generatorAlg}/index.js`);
+  const lang = selLang.options[langIdx].value;
+
   try {
-    if (/^c_|java|matrix/.test(lang)) {
-      output.setOption('mode', 'clike');
-    } else {
-      output.setOption('mode', lang);
-    }
+    const mode = /^c_|java|matrix/.test(lang) ? 'clike' : lang;
+    output.setOption('mode', mode);
     output.setValue(builder(input.value, lang));
   } catch (e) {
     output.setValue(e.message);
   }
+
   btnClear.disabled = false;
   btnDownload.disabled = false;
   btnDownload.onclick = saveTextAsFile.bind(this, lang);
@@ -110,7 +113,7 @@ function saveTextAsFile(lang) {
     type: 'text/plain'
   });
   const downloadLink = document.createElement('a');
-  downloadLink.download = utils.resolveFilename(lang);;
+  downloadLink.download = utils.resolveFilename(lang);
   downloadLink.href = window.URL.createObjectURL(textFileAsBlob);
   downloadLink.onclick = event => document.body.removeChild(event.target);
   downloadLink.style.display = 'none';
@@ -119,10 +122,11 @@ function saveTextAsFile(lang) {
 }
 
 function changeLocale(locale, defLocale) {
-  defLocale = locale;
+  if (defLocale !== undefined) defLocale = locale;
+
   window.localStorage.setItem('defLocale', locale);
 
-  const {header, selectLoc, selectAlg, selectLang, inputPoly, btnGen, btnClr, btnDwnl, linkRef, errInput} = locales[locale];
+  const { header, selectLoc, selectAlg, selectLang, inputPoly, btnGen, btnClr, btnDwnl, linkRef, errInput } = locales[locale];
 
   document.querySelector('.main--header').textContent = header;
   document.querySelector('.label--locale').textContent = selectLoc;
