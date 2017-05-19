@@ -15,6 +15,10 @@ const input = document.querySelector('.input--polynomial');
 const btnGenerate = document.querySelector('.button--generate');
 const btnClear = document.querySelector('.button--clear');
 const btnDownload = document.querySelector('.button--download');
+const linkReference = document.querySelector('.reference-link');
+
+let defLocale = window.localStorage.getItem('defLocale') || locales[navigator.language.slice(0,2)] || 'en';
+changeLocale(defLocale);
 
 let output = codeMirror.fromTextArea(document.querySelector('.generated-code'), {
   theme: 'icecoder',
@@ -39,8 +43,8 @@ btnClear.onclick = () => {
   btnDownload.disabled = true;
 };
 
-initializeLocaleSelect(selLocale, locales);
-selLocale.onchange = changeLocale;
+initializeLocaleSelect(selLocale, locales, defLocale);
+selLocale.onchange = event => changeLocale(event.target.value, defLocale);
 
 function handleAlgirithmSelection(event) {
   const val = event.target.value;
@@ -59,9 +63,14 @@ function initializeLangSelect(select, langs) {
   });
 }
 
-function initializeLocaleSelect(select, locales) {
+function initializeLocaleSelect(select, locales, defLocale) {
   select.innerHTML = '';
-  Object.keys(locales).forEach(locale => select.appendChild(createOption(locale)));
+  Object.keys(locales).forEach(locale => {
+    select.appendChild(createOption(locale));
+    if (locale === defLocale) {
+      select.value = locale;
+    }
+  });
 }
 
 function createOption(content) {
@@ -109,22 +118,12 @@ function saveTextAsFile(lang) {
   downloadLink.click();
 }
 
-function changeLocale(event) {
-  const locale = event.target.value;
-  
-  const {
-    header,
-    selectLoc,
-    selectAlg,
-    selectLang,
-    inputPoly,
-    btnGen,
-    btnClr,
-    btnDwnl,
-    errInput
-  } = locales[locale];
-  
-  
+function changeLocale(locale, defLocale) {
+  defLocale = locale;
+  window.localStorage.setItem('defLocale', locale);
+
+  const {header, selectLoc, selectAlg, selectLang, inputPoly, btnGen, btnClr, btnDwnl, linkRef, errInput} = locales[locale];
+
   document.querySelector('.main--header').textContent = header;
   document.querySelector('.label--locale').textContent = selectLoc;
   document.querySelector('.label--algorithm').textContent = selectAlg;
@@ -133,5 +132,10 @@ function changeLocale(event) {
   document.querySelector('.button--generate').textContent = btnGen;
   document.querySelector('.button--clear').textContent = btnClr;
   document.querySelector('.button--download').textContent = btnDwnl;
+
+  const reference = document.querySelector('.link--reference')
+  reference.textContent = linkRef;
+  reference.href = `/reference/${locale}/index.html`;
+
   E_WRONG_INPUT = errInput;
 }

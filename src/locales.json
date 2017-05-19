@@ -1,24 +1,26 @@
 {
   "ru": {
     "header": "Генерация кода для автоматизации построения умножителя в поле Галуа.",
-    "selectLoc": "Выберите язык:",
+    "selectLoc": "Выберите язык интерфейса:",
     "selectAlg": "Алгоритм умножителя:",
     "selectLang": "Язык реализации умножителя:",
     "inputPoly": "Образующий полином в двоичном представлении:",
     "btnGen": "Сгенерировать",
     "btnClr": "Очистить",
     "btnDwnl": "Скачать",
+    "linkRef": "Справка",
     "errInput": "ОШИБКА: Проверьте правильность ввода.\r\n\tПеред генерацией необходимо выбрать алгоритм и язык реализации.\r\n\tОбразующий полином вводится только в двоичном виде, от наибольшей степени к наименьшей."
   },
   "en": {
     "header": "Code generator for GF-multiplier's building automatization.",
-    "selectLoc": "Choose locale:",
+    "selectLoc": "Choose interface locale:",
     "selectAlg": "Choose multiplier algorithm:",
     "selectLang": "Choose generated language:",
     "inputPoly": "Enter monic irreducible polynomial base 2:",
     "btnGen": "Generate",
     "btnClr": "Clear",
     "btnDwnl": "Download",
+    "linkRef": "Reference",
     "errInput": "ERROR: Check your inputs.\r\n\tYou should choose algorithm and language for generated code.\r\n\tPolinomial should be provided only in binary representation."
   }
 }

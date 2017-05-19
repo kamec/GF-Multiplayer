@@ -3,6 +3,7 @@
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
+  font-family: sans-serif;
 }
 
 .input {
@@ -35,50 +36,28 @@
   width: 2.5rem;
 }
 
-.reference {
-  transition-property: all;
-  transition-duration: 1s;
-  transition-timing-function: ease;
-  
+.reference-block {
+  display: block;
   position: fixed;
   right: 5rem;
-  bottom: 0;
-  
-  border: 3px ridge #CCC;
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
-  border-bottom: none;
-  
-  width: 7rem;
-  height: 2rem;
-  background-color: #EEE;
-
-  z-index: 9999;
+  top: 1.5rem;
 }
 
-.reference:hover {
-  transition-property: all;
-  transition-duration: 1s;
-  transition-timing-function: ease;
-  
-  width: 25rem;
-  height: 25rem;
-  padding-left: 10px;
+.link--reference,
+.link--reference:link,
+.link--reference:visited,
+.link--reference:hover,
+.link--reference:active {
+  font-size: 20px;
+  text-decoration: none;
+  color: #333;
+  cursor: pointer;
 }
 
-.article--reference {
-  transition-property: all;
-  transition-duration: 0.5s;
-  
-  opacity: 0.0;
+.link--reference:hover {
+  text-decoration: underline;
 }
 
-.reference:hover .article--reference {
-  transition-property: all;
-  transition-delay: 1s;
-
-  opacity: 1.0;
-}
 
 .algorithms {
   margin-left: 0.05rem;

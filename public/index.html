@@ -10,25 +10,12 @@
   </head>
   <body>
     <div class="wrapper">
-      <aside class="reference">
-        <h2 class="header second--header">Справка</h2>
-        <article class="article article--reference">
-          <p>Для того чтобы получить результат, выполните следующие действия:</p>
-          <ol class="algorithms">
-            <li>Выберите алгоритм умножения, реализацию которого вы хотете получить.
-              <ul>
-                <li>"simple" - алгоритм right-to-left shift-and-add.</li>
-                <li>"reyhani-masoleh" - алгоритм Рейхани-Мазолеха, использующий матрицы для быстрого умножения.</li>
-                <li>"karatsuba" - алгоритм двоичного умножения Карацубы-Офмана.</li>
-              </ul>
-            </li>
-            <li>Выберите язык реализации алгоритма.</li>
-            <li>Укажите образующий полином поля Галуа, в котором будет производиться умножение.</li>
-          </ol>
-        </article>
-      </aside>
-      
+  
       <section class="generator-options">
+        <div class="reference-block">
+          <a class="link--reference" href="reference/ru/index.html">Справка</a>
+        </div>
+        
         <h1 class="header main--header">Генерация кода для автоматизации построения умножителя в поле Галуа.</h1>
         <div class="group">
           <label class="label label--algorithm" for="algorithm">Алгоритм умножителя:</label>
@@ -52,12 +39,14 @@
           <button class="button button--clear" type="button" disabled="disabled">Очистить</button>
           <button class="button button--download" type="button" disabled="disabled">Скачать</button>
         </nav>
-        <textarea class="generated-code" name="generated-code" readonly="readonly" wrap="off"></textarea>
+        <textarea class="generated-code" name="generated-code" readonly="readonly"></textarea>
       </section>
+      
       <nav class="group--locale">
-        <label class="label label--locale" for="algorithm">Выберите язык:</label>
+        <label class="label label--locale" for="algorithm">Выберите язык интерфейса:</label>
         <select class="select select--locale" name="locale" />
       </nav>
+  
     </div>
   </body>
 </html>
