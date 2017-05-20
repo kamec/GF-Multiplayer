@@ -19,8 +19,11 @@ const linkReference = document.querySelector('.reference-link');
 
 let E_WRONG_INPUT = '';
 
-let defLocale = window.localStorage.getItem('defLocale') || locales[navigator.language.slice(0, 2)] || 'en';
-changeLocale(defLocale);
+const localStorageLanguage = window.localStorage.getItem('locale');
+const language = navigator.language.slice(0, 2);
+const defaultLanguage = 'en';
+
+changeLocale(localStorageLanguage || language || defaultLanguage);
 
 const output = codeMirror.fromTextArea(document.querySelector('.generated-code'), {
   theme: 'icecoder',
@@ -39,7 +42,7 @@ generators.forEach(gen => initializeMultSelect(selAlg, gen));
 btnGenerate.onclick = generateCode;
 btnClear.onclick = clearOut;
 
-initializeLocaleSelect(selLocale, locales, defLocale);
+initializeLocaleSelect(selLocale, locales);
 
 function clearOut() {
   output.setValue('');
@@ -121,10 +124,8 @@ function saveTextAsFile(lang) {
   downloadLink.click();
 }
 
-function changeLocale(locale, defLocale) {
-  if (defLocale !== undefined) defLocale = locale;
-
-  window.localStorage.setItem('defLocale', locale);
+function changeLocale(locale) {
+  window.localStorage.setItem('locale', locale);
 
   const { header, selectLoc, selectAlg, selectLang, inputPoly, btnGen, btnClr, btnDwnl, linkRef, errInput } = locales[locale];
 
