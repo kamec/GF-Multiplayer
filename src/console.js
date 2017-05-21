@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const program = require('commander');
-const utils = require('./utils');
+const {resolveFilename} = require('./utils');
 
 const DIR = path.join(__dirname, 'generators');
 const DEFAULT_OUT = path.join(__dirname, '..', 'tmp');
@@ -14,7 +14,7 @@ const E_WRONG_ALG = 'Invalid algorithms name. Check supported section.';
       program.help();
     }
   });
-  
+
   program.version('0.0.1')
     .description(`Supported algorithms and languages: \r\n\t${getSupportedGenerators()}`)
     .option('-a, --algorithm <algorithm>', 'multiplier algorithm', 'reyhani-masoleh')
@@ -23,14 +23,14 @@ const E_WRONG_ALG = 'Invalid algorithms name. Check supported section.';
     .option('-o, --out <absolute path>', 'path for output folder', DEFAULT_OUT)
     .option('-p, --polynomial <polynomial>', 'monic irreducible polynomial base 2. REQUIRED')
     .parse(process.argv);
-    
+
   if (!program.polynomial) {
     process.exit('ERROR: No polynomial provided.');
   }
-  
+
   const { language, algorithm, name, out, polynomial } = program;
-  const fileName = utils.resolveFilename(language, name);
-  
+  const fileName = resolveFilename(language, name);
+
   try {
     fs.mkdirSync(`${out}`);
   } catch (err) {
@@ -38,7 +38,7 @@ const E_WRONG_ALG = 'Invalid algorithms name. Check supported section.';
       process.exit(err.code);
     }
   }
-  
+
   const file = path.join(out, fileName);
   try {
     const builder = loadModule(algorithm);
@@ -48,7 +48,7 @@ const E_WRONG_ALG = 'Invalid algorithms name. Check supported section.';
   } catch (err) {
     process.exit(err.message);
   }
-  
+
 }());
 
 function getSupportedGenerators() {

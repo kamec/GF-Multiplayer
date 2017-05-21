@@ -4,9 +4,9 @@ const pascal = require('codemirror/mode/pascal/pascal');
 const c_def = require('codemirror/mode/clike/clike');
 const codeMirror = require('codemirror');
 
-const library = require('./generators/generators.json');
+const generators = require('./generators/generators.json').supported;
 const locales = require('./locales.json');
-const utils = require('./utils');
+const { resolveFilename } = require('./utils');
 
 const selLocale = document.querySelector('.select--locale');
 const selAlg = document.querySelector('.select--algorithm');
@@ -17,32 +17,26 @@ const btnClear = document.querySelector('.button--clear');
 const btnDownload = document.querySelector('.button--download');
 const linkReference = document.querySelector('.reference-link');
 
+const codeMirrorOptions = require('./codeMirrorOptions.json');
+const output = codeMirror.fromTextArea(document.querySelector('.generated-code'), codeMirrorOptions);
+
+const localStorageLocale = window.localStorage.getItem('locale');
+const browserLocale = navigator.language.slice(0, 2);
+const defaultLocale = 'en';
+const locale = localStorageLocale || browserLocale || defaultLocale;
+
 let E_WRONG_INPUT = '';
 
-const localStorageLanguage = window.localStorage.getItem('locale');
-const language = navigator.language.slice(0, 2);
-const defaultLanguage = 'en';
+(function() {
+  changeLocale(locale);
+  initializeLocaleSelect(selLocale, locales, locale);
 
-changeLocale(localStorageLanguage || language || defaultLanguage);
+  selAlg.onchange = handleAlgirithmSelection;
 
-const output = codeMirror.fromTextArea(document.querySelector('.generated-code'), {
-  theme: 'icecoder',
-  readOnly: true,
-  matchBrackets: true,
-  linewrapping: false,
-  lineNumbers: true,
-  cursorBlinkRate: -1,
-  tabSize: 2,
-});
-
-const generators = library.supported;
-selAlg.onchange = handleAlgirithmSelection;
-
-generators.forEach(gen => initializeMultSelect(selAlg, gen));
-btnGenerate.onclick = generateCode;
-btnClear.onclick = clearOut;
-
-initializeLocaleSelect(selLocale, locales);
+  generators.forEach(gen => initializeMultSelect(selAlg, gen));
+  btnGenerate.onclick = generateCode;
+  btnClear.onclick = clearOut;
+}());
 
 function clearOut() {
   output.setValue('');
@@ -68,7 +62,7 @@ function initializeLangSelect(select, langs) {
 
 function initializeLocaleSelect(select, locales, defLocale) {
   select.innerHTML = '';
-  select.onchange = event => changeLocale(event.target.value, defLocale);
+  select.onchange = event => changeLocale(event.target.value);
 
   Object.keys(locales).forEach(locale => {
     select.appendChild(createOption(locale));
@@ -116,7 +110,7 @@ function saveTextAsFile(lang) {
     type: 'text/plain'
   });
   const downloadLink = document.createElement('a');
-  downloadLink.download = utils.resolveFilename(lang);
+  downloadLink.download = resolveFilename(lang);
   downloadLink.href = window.URL.createObjectURL(textFileAsBlob);
   downloadLink.onclick = event => document.body.removeChild(event.target);
   downloadLink.style.display = 'none';
@@ -127,13 +121,14 @@ function saveTextAsFile(lang) {
 function changeLocale(locale) {
   window.localStorage.setItem('locale', locale);
 
-  const { header, selectLoc, selectAlg, selectLang, inputPoly, btnGen, btnClr, btnDwnl, linkRef, errInput } = locales[locale];
+  const { header, selectLoc, selectAlg, selectLang, inputPoly, inputTitle, btnGen, btnClr, btnDwnl, linkRef, errInput } = locales[locale];
 
   document.querySelector('.main--header').textContent = header;
   document.querySelector('.label--locale').textContent = selectLoc;
   document.querySelector('.label--algorithm').textContent = selectAlg;
   document.querySelector('.label--language').textContent = selectLang;
   document.querySelector('.label--polynomial').textContent = inputPoly;
+  document.querySelector('.input--polynomial').title = inputTitle;
   document.querySelector('.button--generate').textContent = btnGen;
   document.querySelector('.button--clear').textContent = btnClr;
   document.querySelector('.button--download').textContent = btnDwnl;

@@ -1,0 +1,10 @@
+{
+  "theme": "icecoder",
+  "readOnly": "true",
+  "matchBrackets": "true",
+  "linewrapping": "false",
+  "lineNumbers": "true",
+  "styleActiveLine": "true",
+  "cursorBlinkRate": "-1",
+  "tabSize": "2"
+}

@@ -1,1 +1,1 @@
-module.exports = qAsString => qAsString;
+module.exports = qAsString => 'Q matrix:\r\n\r\n' + qAsString;

@@ -18,7 +18,7 @@
     "selectAlg": "Choose multiplier algorithm:",
     "selectLang": "Choose generated language:",
     "inputPoly": "Enter monic irreducible polynomial base 2:",
-    "inputTitle": "Attention: big-endian notation is required.",
+    "inputTitle": "Attention: big-endian notation is required",
     "btnGen": "Generate",
     "btnClr": "Clear",
     "btnDwnl": "Download",

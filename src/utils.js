@@ -23,32 +23,11 @@
   };
 
   module.exports.stringifyMatrix = function stringifyMatrix(M) {
-    return M.map(row => row.join(' ')).join('\n');
+    return M.map(row => row.join(' ')).join('\r\n');
   };
 
   module.exports.stringifyVector = function stringifyVector(V) {
     return V.join(' ');
-  };
-
-  module.exports.getStatus = function getStatus(Q = [[]], A = [], B = [], matrixL = [[]], matrixU = [[]], d = [], e = [], c = []) {
-    let status = `Q =\r\n`;
-    status += `${this.stringifyMatrix(Q)}\r\n`;
-    status += `\r\n`;
-    status += `A = ${this.stringifyVector(A)}\r\n`;
-    status += `B = ${this.stringifyVector(B)}\r\n`;
-    status += `\r\n`;
-    status += `L =\r\n`;
-    status += `${this.stringifyMatrix(matrixL)}\r\n`;
-    status += `\r\n`;
-    status += `U =\r\n`;
-    status += `${this.stringifyMatrix(matrixU)}\r\n`;
-    status += `\r\n`;
-    status += `d = ${this.stringifyVector(d)}\r\n`;
-    status += `e = ${this.stringifyVector(e)}\r\n`;
-    status += `\r\n`;
-    status += `C = ${this.stringifyVector(c)}\r\n`;
-    status += `\r\n`;
-    return status;
   };
 
   module.exports.resolveFilename = function(lang, name) {
