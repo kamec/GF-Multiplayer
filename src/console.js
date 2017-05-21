@@ -15,17 +15,18 @@ const E_WRONG_ALG = 'Invalid algorithms name. Check supported section.';
     }
   });
 
-  program.version('0.0.1')
-    .description(`Supported algorithms and languages: \r\n\t${getSupportedGenerators()}`)
+  program.version('0.1.0')
+    .description(`Default output directory: './tmp/'\r\n\r\n  Supported algorithms and languages: \r\n\t${getSupportedGenerators()}\r\n`)
     .option('-a, --algorithm <algorithm>', 'multiplier algorithm', 'reyhani-masoleh')
     .option('-l, --language <language>', 'language for output code', 'c_def')
     .option('-n, --name <name>', 'name for output file', 'out')
     .option('-o, --out <absolute path>', 'path for output folder', DEFAULT_OUT)
-    .option('-p, --polynomial <polynomial>', 'monic irreducible polynomial base 2. REQUIRED')
+    .option('-p, --polynomial <polynomial>', 'monic irreducible polynomial base 2 with big-endian notation. REQUIRED')
+    .usage(`-a karatsuba -l pascal -o D://temp/ -p 101010101`)
     .parse(process.argv);
 
   if (!program.polynomial) {
-    process.exit('ERROR: No polynomial provided.');
+    process.exit('  ERROR: No polynomial provided.');
   }
 
   const { language, algorithm, name, out, polynomial } = program;
