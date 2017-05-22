@@ -1,7 +1,9 @@
 const python = require('codemirror/mode/python/python');
 const verilog = require('codemirror/mode/verilog/verilog');
 const pascal = require('codemirror/mode/pascal/pascal');
-const c_def = require('codemirror/mode/clike/clike');
+const clike = require('codemirror/mode/clike/clike');
+const scrollbars = require('codemirror/addon/scroll/simplescrollbars');
+
 const codeMirror = require('codemirror');
 
 const generators = require('./generators/generators.json').supported;
@@ -93,7 +95,7 @@ function generateCode() {
   const lang = selLang.options[langIdx].value;
 
   try {
-    const mode = /^c_|java|matrix/.test(lang) ? 'clike' : lang;
+    const mode = /^c_|java/.test(lang) ? 'clike' : lang;
     output.setOption('mode', mode);
     output.setValue(builder(input.value, lang));
   } catch (e) {

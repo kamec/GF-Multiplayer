@@ -2,9 +2,9 @@
   "theme": "icecoder",
   "readOnly": "true",
   "matchBrackets": "true",
-  "linewrapping": "false",
   "lineNumbers": "true",
   "styleActiveLine": "true",
+  "scrollbarStyle": "simple",
   "cursorBlinkRate": "-1",
   "tabSize": "2"
 }
