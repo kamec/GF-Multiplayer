@@ -3,12 +3,7 @@
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  font-family: sans-serif;
-}
-
-.input {
-  width: calc(10rem - 2px);
-  border: 1px solid rgb(169, 169, 169);
+  font-family: georgia, serif;
 }
 
 .header {
@@ -16,14 +11,42 @@
   text-align: center;
 }
 
+.input {
+  width: calc(10rem - 0.175rem - 2px);
+  border: 1px solid rgb(169, 169, 169);
+  height: calc(1.5rem - 4px);
+  border-radius: 5px;
+  padding-left: 0.175rem;
+}
+
 .select {
   width: 10rem;
+  height: 1.5rem;
+  border-radius: 5px;
 }
 
 .button {
   align-self: flex-end;
   width: 10rem;
   height: 1.5rem;
+  border-radius: 5px;
+  border: 1px solid rgb(169, 169, 169);
+}
+
+.button, .input, .select, .link {
+  outline: none;
+}
+
+.button:focus, .input:focus, .select:focus, .link:focus {
+  box-shadow: 2px 2px 2px 1px #666;
+}
+
+.link:focus {
+  box-sizing: content-box;
+}
+
+.button:not([disabled]):hover {
+  opacity: 0.7;
 }
 
 .group--locale {
@@ -57,7 +80,6 @@
 .link--reference:hover {
   text-decoration: underline;
 }
-
 
 .algorithms {
   margin-left: 0.05rem;

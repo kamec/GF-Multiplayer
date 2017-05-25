@@ -6,20 +6,20 @@ const scrollbars = require('codemirror/addon/scroll/simplescrollbars');
 
 const codeMirror = require('codemirror');
 
-const generators = require('./generators/generators.json').supported;
-const locales = require('./locales.json');
+const generators = require('./config/generators.json').supported;
+const locales = require('./config/locales.json');
 const { resolveFilename } = require('./utils');
 
-const selLocale = document.querySelector('.select--locale');
 const selAlg = document.querySelector('.select--algorithm');
 const selLang = document.querySelector('.select--language');
+const selLocale = document.querySelector('.select--locale');
 const input = document.querySelector('.input--polynomial');
-const btnGenerate = document.querySelector('.button--generate');
 const btnClear = document.querySelector('.button--clear');
 const btnDownload = document.querySelector('.button--download');
+const btnGenerate = document.querySelector('.button--generate');
 const linkReference = document.querySelector('.reference-link');
 
-const codeMirrorOptions = require('./codeMirrorOptions.json');
+const codeMirrorOptions = require('./config/codeMirrorOptions.json');
 const output = codeMirror.fromTextArea(document.querySelector('.generated-code'), codeMirrorOptions);
 
 const localStorageLocale = window.localStorage.getItem('locale');

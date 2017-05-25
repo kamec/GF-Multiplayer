@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const DIR = path.join(__dirname, 'src/generators');
-const OUT = path.join(DIR, 'generators.json');
+const OUT = path.join(__dirname, 'src/config/generators.json');
 
 fs.writeFileSync(OUT, JSON.stringify(getDirectoryContent(DIR, 'generators')));
 
