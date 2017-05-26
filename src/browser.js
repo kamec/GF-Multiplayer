@@ -1,11 +1,3 @@
-const python = require('codemirror/mode/python/python');
-const verilog = require('codemirror/mode/verilog/verilog');
-const pascal = require('codemirror/mode/pascal/pascal');
-const clike = require('codemirror/mode/clike/clike');
-const scrollbars = require('codemirror/addon/scroll/simplescrollbars');
-
-const codeMirror = require('codemirror');
-
 const generators = require('./config/generators.json').supported;
 const locales = require('./config/locales.json');
 const { resolveFilename } = require('./utils');
@@ -20,7 +12,7 @@ const btnGenerate = document.querySelector('.button--generate');
 const linkReference = document.querySelector('.reference-link');
 
 const codeMirrorOptions = require('./config/codeMirrorOptions.json');
-const output = codeMirror.fromTextArea(document.querySelector('.generated-code'), codeMirrorOptions);
+const output = CodeMirror.fromTextArea(document.querySelector('.generated-code'), codeMirrorOptions);
 
 const localStorageLocale = window.localStorage.getItem('locale');
 const browserLocale = navigator.language.slice(0, 2);
@@ -94,10 +86,26 @@ function generateCode() {
   const builder = require(`./generators/${generatorAlg}/index.js`);
   const lang = selLang.options[langIdx].value;
 
+  let mode;
+  
+  switch (lang) {
+    case 'c_def':
+    case 'c_func':
+      mode = 'text/x-csrc';
+      break;
+      
+    case 'java':
+      mode = 'text/x-java';
+      break;
+
+    default:
+      mode = lang;
+      break;
+  }
+
   try {
-    const mode = /^c_|java/.test(lang) ? 'clike' : lang;
-    output.setOption('mode', mode);
     output.setValue(builder(input.value, lang));
+    output.setOption('mode', mode);
   } catch (e) {
     output.setValue(e.message);
   }
