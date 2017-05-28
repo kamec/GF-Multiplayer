@@ -6,6 +6,15 @@
   font-family: georgia, serif;
 }
 
+.inner-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;  
+  height: 100vh;
+  width: 680px;
+  background-color: #e0e8b8;
+}
+
 .header {
   margin-top: 0px;
   text-align: center;
@@ -51,7 +60,7 @@
 
 .group--locale {
   position: fixed;
-  right: 5rem;
+  right: 1.5rem;
   top: 0;
 }
 
@@ -62,7 +71,7 @@
 .reference-block {
   display: block;
   position: fixed;
-  right: 5rem;
+  right: 1.5rem;
   top: 1.5rem;
 }
 
@@ -116,5 +125,7 @@
 }
 
 .CodeMirror {
+  width: calc(35rem - 4px - 1.6px);
   height: 70vh;
+  
 }

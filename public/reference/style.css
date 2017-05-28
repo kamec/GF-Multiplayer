@@ -1,14 +1,22 @@
 .reference {
+  //position: fixed;
+  right: 1.5rem;
   margin: auto;
-  width: 560px;
+  width: 200px;
+  height: 700px;
   font-family: georgia, serif;
+}
+
+.reference-block {
+  width: 200px;
+  height: 700px;  
 }
 
 .back-block {
   display: block;
   position: fixed;
-  right: 5rem;
-  top: 1.5rem;
+  right: 2.5rem;
+  //top: 1.5rem;
 }
 
 .link--back,

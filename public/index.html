@@ -18,10 +18,12 @@
   </head>
   <body>
     <div class="wrapper">
-  
+    <div class="inner-wrapper"
       <section class="generator-options">
         <div class="reference-block">
-          <a class="link link--reference" href="reference/ru/index.html">Справка</a>
+          <a href="/reference/ru/index.html" target="frame">Справка</a>
+          <iframe class="link link--reference" src="/reference/ru/index.html" /*frameborder="0"*/ name="frame" height="500" width="250" scrolling="yes">Справка</iframe>
+          <!-- <a class="link link--reference" href="reference/ru/index.html">Справка</a> -->
         </div>
         
         <h1 class="header main--header">Генерация кода для автоматизации построения умножителя в поле Галуа.</h1>
@@ -49,6 +51,7 @@
         </nav>
         <textarea class="generated-code" name="generated-code" readonly="readonly"></textarea>
       </section>
+    </div>
       
       <nav class="group--locale">
         <label class="label label--locale" for="algorithm">Выберите язык интерфейса:</label>
