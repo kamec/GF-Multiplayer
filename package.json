@@ -27,7 +27,14 @@
     "make:json": "node task-build-json.js",
     "make:clean": "node task-clean.js",
     "build": "npm run make:clean && npm run make:json && webpack --env",
-    "start": "webpack-dev-server --env.Dev"
+    "start": "webpack-dev-server --env.Dev",    
+    
+    "gen:test": "npm run gen:s:test & npm run gen:k:test & npm run gen:f:test & npm run gen:d:test",
+    "gen:s:test": "node src/console.js -a simple     -l c_func -o E://test2/raw/lenX/ -n s  -p 10101",
+    "gen:k:test": "node src/console.js -a karatsuba  -l c_func -o E://test2/raw/lenX/ -n k  -p 10101",
+    "gen:d:test": "node src/console.js               -l c_func -o E://test2/raw/lenX/ -n rf -p 10101",
+    "gen:f:test": "node src/console.js               -l c_def  -o E://test2/raw/lenX/ -n rd -p 10101",
+    
   },
   "repository": {
     "type": "git"
