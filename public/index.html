@@ -5,7 +5,7 @@
     <title>Умножители в полях Галуа</title>
     <link rel="stylesheet" href="lib/css/codemirror.css">
     <link rel="stylesheet" href="lib/css/simplescrollbars.css">
-    <link rel="stylesheet" href="lib/css/base16-dark.css">
+    <link rel="stylesheet" href="lib/css/mbo.css">
     <link rel="stylesheet" href="lib/georgia.css">
     <link rel="stylesheet" href="styles.css">
     <script src="lib/codemirror/codemirror.js" charset="utf-8" defer></script>
@@ -18,46 +18,44 @@
   </head>
   <body>
     <div class="wrapper">
-    <div class="inner-wrapper"
-      <section class="generator-options">
-        <div class="reference-block">
-          <a href="/reference/ru/index.html" target="frame">Справка</a>
-          <iframe class="link link--reference" src="/reference/ru/index.html" /*frameborder="0"*/ name="frame" height="500" width="250" scrolling="yes">Справка</iframe>
-          <!-- <a class="link link--reference" href="reference/ru/index.html">Справка</a> -->
-        </div>
-        
-        <h1 class="header main--header">Генерация кода для автоматизации построения умножителя в поле Галуа.</h1>
-        <div class="group">
-          <label class="label label--algorithm" for="algorithm">Алгоритм умножителя:</label>
-          <select class="select select--algorithm" name="algorithm">
+      <div class="inner-wrapper">
+        <section class="generator-options">
+          <h1 class="header main--header">Генерация кода для автоматизации построения умножителя в поле Галуа.</h1>
+          <div class="group">
+            <label class="label label--algorithm" for="algorithm">Алгоритм умножителя:</label>
+            <select class="select select--algorithm" name="algorithm">
             <option disabled hidden selected="selected" value=""></option>
           </select>
-        </div>
+          </div>
 
-        <div class="group">
-          <label class="label label--language" for="generators">Язык реализации умножителя:</label>
-          <select class="select select--language" name="generators"></select>
-        </div>
+          <div class="group">
+            <label class="label label--language" for="generators">Язык реализации умножителя:</label>
+            <select class="select select--language" name="generators"></select>
+          </div>
 
-        <div class="group">
-          <label class="label label--polynomial" for="polinomial">Образующий полином в двоичном представлении:</label>
-          <input class="input input--polynomial" name="polinomial" title="Внимание: запись идет слева направо.">
-        </div>
+          <div class="group">
+            <label class="label label--polynomial" for="polinomial">Образующий полином в двоичном представлении:</label>
+            <input class="input input--polynomial" name="polinomial" title="Внимание: запись идет слева направо.">
+          </div>
 
-        <nav class="group">
-          <button class="button button--generate" type="button">Сгенерировать</button>
-          <button class="button button--clear" type="button" disabled="disabled">Очистить</button>
-          <button class="button button--download" type="button" disabled="disabled">Скачать</button>
-        </nav>
-        <textarea class="generated-code" name="generated-code" readonly="readonly"></textarea>
-      </section>
-    </div>
-      
+          <nav class="group">
+            <button class="button button--generate" type="button">Сгенерировать</button>
+            <button class="button button--clear" type="button" disabled="disabled">Очистить</button>
+            <button class="button button--download" type="button" disabled="disabled">Скачать</button>
+          </nav>
+          <textarea class="generated-code" name="generated-code" readonly="readonly"></textarea>
+        </section>
+      </div>
+
       <nav class="group--locale">
-        <label class="label label--locale" for="algorithm">Выберите язык интерфейса:</label>
-        <select class="select select--locale" name="locale" />
+        <label class="label label--locale" for="locale">Выберите язык интерфейса:</label>
+        <select class="select select--locale" name="locale"></select>
       </nav>
-  
+      <div class="reference-block">
+        <button class="button button--reference" type="button">Справка</button>
+        <iframe class="reference hidden" src="/reference/ru/index.html" scrolling="no" seamless />
+      </div>
+
     </div>
   </body>
 </html>

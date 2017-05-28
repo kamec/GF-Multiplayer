@@ -9,7 +9,8 @@ const input = document.querySelector('.input--polynomial');
 const btnClear = document.querySelector('.button--clear');
 const btnDownload = document.querySelector('.button--download');
 const btnGenerate = document.querySelector('.button--generate');
-const linkReference = document.querySelector('.reference-link');
+const btnReference = document.querySelector('.button--reference');
+const linkReference = document.querySelector('.reference');
 
 const codeMirrorOptions = require('./config/codeMirrorOptions.json');
 const output = CodeMirror.fromTextArea(document.querySelector('.generated-code'), codeMirrorOptions);
@@ -27,10 +28,22 @@ let E_WRONG_INPUT = '';
 
   selAlg.onchange = handleAlgirithmSelection;
 
+  btnReference.onclick = show;
+  
   generators.forEach(gen => initializeMultSelect(selAlg, gen));
   btnGenerate.onclick = generateCode;
   btnClear.onclick = clearOut;
 }());
+
+function show() {
+  btnReference.onclick = hide;
+  linkReference.classList.remove('hidden');
+}
+
+function hide() {
+  btnReference.onclick = show;
+  linkReference.classList.add('hidden');
+}
 
 function clearOut() {
   output.setValue('');
@@ -131,7 +144,7 @@ function saveTextAsFile(lang) {
 function changeLocale(locale) {
   window.localStorage.setItem('locale', locale);
 
-  const { header, selectLoc, selectAlg, selectLang, inputPoly, inputTitle, btnGen, btnClr, btnDwnl, linkRef, errInput } = locales[locale];
+  const { header, selectLoc, selectAlg, selectLang, inputPoly, inputTitle, btnGen, btnClr, btnDwnl, ref, errInput } = locales[locale];
 
   document.querySelector('.main--header').textContent = header;
   document.querySelector('.label--locale').textContent = selectLoc;
@@ -142,10 +155,8 @@ function changeLocale(locale) {
   document.querySelector('.button--generate').textContent = btnGen;
   document.querySelector('.button--clear').textContent = btnClr;
   document.querySelector('.button--download').textContent = btnDwnl;
-
-  const reference = document.querySelector('.link--reference')
-  reference.textContent = linkRef;
-  reference.href = `/reference/${locale}/index.html`;
+  document.querySelector('.button--reference').textContent = ref;
+  document.querySelector('.reference').src = `/reference/${locale}/index.html`;
 
   E_WRONG_INPUT = errInput;
 }

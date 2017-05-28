@@ -9,7 +9,7 @@
     "btnGen": "Сгенерировать",
     "btnClr": "Очистить",
     "btnDwnl": "Скачать",
-    "linkRef": "Справка",
+    "ref": "Справка",
     "errInput": "ОШИБКА: Проверьте правильность ввода.\r\n\tПеред генерацией необходимо выбрать алгоритм и язык реализации.\r\n\tОбразующий полином вводится только в двоичном виде, от наибольшей степени к наименьшей."
   },
   "en": {
@@ -22,7 +22,7 @@
     "btnGen": "Generate",
     "btnClr": "Clear",
     "btnDwnl": "Download",
-    "linkRef": "Reference",
+    "ref": "Reference",
     "errInput": "ERROR: Check your inputs.\r\n\tYou should choose algorithm and language for generated code.\r\n\tPolinomial should be provided only in binary representation."
   }
 }

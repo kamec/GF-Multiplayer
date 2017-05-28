@@ -1,18 +1,24 @@
+body {
+  margin: 0;
+}
+
 .wrapper {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
   font-family: georgia, serif;
+  background-color: #C2C1C1;
 }
 
 .inner-wrapper {
   display: flex;
-  flex-direction: column;
-  align-items: center;  
+  align-items: center;
+  justify-content: space-around;
+  
   height: 100vh;
   width: 680px;
-  background-color: #e0e8b8;
+  background-color: #fff;
 }
 
 .header {
@@ -36,6 +42,7 @@
 
 .button {
   align-self: flex-end;
+  background-color: #ffcf6c;
   width: 10rem;
   height: 1.5rem;
   border-radius: 5px;
@@ -46,7 +53,7 @@
   outline: none;
 }
 
-.button:focus, .input:focus, .select:focus, .link:focus {
+.button:focus, .input:focus, .select:focus {
   box-shadow: 2px 2px 2px 1px #666;
 }
 
@@ -55,7 +62,7 @@
 }
 
 .button:not([disabled]):hover {
-  opacity: 0.7;
+  background-color: #ffb928
 }
 
 .group--locale {
@@ -67,33 +74,6 @@
 .select--locale {
   width: 2.5rem;
 }
-
-.reference-block {
-  display: block;
-  position: fixed;
-  right: 1.5rem;
-  top: 1.5rem;
-}
-
-.link--reference,
-.link--reference:link,
-.link--reference:visited,
-.link--reference:hover,
-.link--reference:active {
-  font-size: 20px;
-  text-decoration: none;
-  color: #333;
-  cursor: pointer;
-}
-
-.link--reference:hover {
-  text-decoration: underline;
-}
-
-.algorithms {
-  margin-left: 0.05rem;
-}
-
 
 .generator-options {
   flex-grow: 0;
@@ -125,7 +105,45 @@
 }
 
 .CodeMirror {
-  width: calc(35rem - 4px - 1.6px);
   height: 70vh;
-  
 }
+
+.reference-block {
+  position: fixed;
+  right: 1.5rem;
+  top: 2rem;
+
+  height: 22rem;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-between;
+  
+  z-index: 9999;
+}
+
+.reference {
+  transition-property: all;
+  transition-duration: 0.5s;
+
+  background-color: #fff;
+  border-style: solid;
+  border-color: #666;
+  border-radius: 10px;
+
+  width: 25.5rem;
+  height: 20rem;
+  padding-left: 10px;
+}
+
+.hidden {
+  display: none;
+}
+
+.button--reference {
+  position: relative;
+  top: 0;
+  right: 0;
+}
+
