@@ -1,6 +1,6 @@
 {
   "ru": {
-    "header": "Генерация кода для автоматизации построения умножителя в поле Галуа.",
+    "header": "Генерация кода для автоматизации построения умножителя в поле Галуа",
     "selectLoc": "Выберите язык интерфейса:",
     "selectAlg": "Алгоритм умножителя:",
     "selectLang": "Язык реализации умножителя:",
@@ -13,7 +13,7 @@
     "errInput": "ОШИБКА: Проверьте правильность ввода.\r\n\tПеред генерацией необходимо выбрать алгоритм и язык реализации.\r\n\tОбразующий полином вводится только в двоичном виде, от наибольшей степени к наименьшей."
   },
   "en": {
-    "header": "Code generator for GF-multiplier's building automatization.",
+    "header": "Code generator for GF-multiplier's building automatization",
     "selectLoc": "Choose interface locale:",
     "selectAlg": "Choose multiplier algorithm:",
     "selectLang": "Choose generated language:",

@@ -11,7 +11,7 @@ int main(int argc, char *argv[]) {
   unsigned int C = 0;
 
   while (A > 0) {
-    if (A & 1 == 1) {
+    if ((A & 1) == 1) {
       C = C ^ B;
     }
     A = A >> 1;

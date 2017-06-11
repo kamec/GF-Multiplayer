@@ -12,16 +12,14 @@ const generateCode = function(Q, size) {
 };
 
 function generateStatic() {
-  let result = '';
-  result += `\#include <stdio.h>\r\n`;
-  result += `\#include <stdlib.h>\r\n`;
-  result += `int main(int argc, char *argv[]) {\r\n`;
-  result += `\tchar *pCh;\r\n`;
-  result += `\tunsigned int i, j;\r\n`;
-  result += `\tunsigned int A = strtoul(argv[1], &pCh, 2);\r\n`;
-  result += `\tunsigned int B = strtoul(argv[2], &pCh, 2);\r\n`;
-  result += `\r\n`;
-  return result;
+  let result = `#include <stdio.h>
+  #include <stdlib.h>
+  int main(int argc, char *argv[]) {
+    char *pCh;
+    unsigned int i, j;
+    unsigned int A = strtoul(argv[1], &pCh, 2);
+    unsigned int B = strtoul(argv[2], &pCh, 2);`;
+  return result += `\r\n\r\n`;
 };
 
 function generateSplittingArray(size) {
@@ -29,10 +27,10 @@ function generateSplittingArray(size) {
   for (let i = 0; i < size; i++) {
     result += `${BigInt(2).pow(i)}${i < size - 1 ? ', ' : ''}`;
   }
-  result += '};\r\n'
-  result += `\tunsigned int a[${size}];\r\n`;
-  result += `\tunsigned int b[${size}];\r\n`;
-  return result;
+  result += `};
+  unsigned int a[${size}];
+  unsigned int b[${size}];`;
+  return result += '\r\n';
 };
 
 function generateSplitting(size) {
@@ -48,25 +46,25 @@ function splitter(letter) {
 };
 
 function generateTeplitsMatricesBuilding(size) {
-  let result = '';
-  result += `\tunsigned int d[${size}];\r\n`;
-  result += `\tunsigned int e[${size - 1}];\r\n`;
+  let result = `
+  unsigned int d[${size}];
+  unsigned int e[${size - 1}];
+  
+  for (i = 0; i < ${size}; i++) {
+    d[i] = a[0]&b[i];
+    for (j = 1; j <= i; j++) {
+      d[i] ^= a[j]&b[i - j];
+    }
+  }
+  
+  for (i = 0; i < ${size-1}; i++) {
+    e[i] = a[i+1]&b[${size - 1}];
+    for (j = i + 2;  j < ${size}; j++) {
+      e[i] ^= a[j]&b[${size} - j + i];
+    }
+  }`;
 
-  result += `\tfor (i = 0; i < ${size}; i++) {\r\n`;
-  result += `\t\td[i] = a[0]&b[i];\r\n`;
-  result += `\t\tfor (j = 1; j <= i; j++) {\r\n`;
-  result += `\t\t\td[i] ^= a[j]&b[i - j];\r\n`;
-  result += `\t\t}\r\n`;
-  result += `\t}\r\n`;
-
-  result += `\tfor (i = 0; i < ${size-1}; i++) {\r\n`;
-  result += `\t\te[i] = a[i+1]&b[${size - 1}];\r\n`;
-  result += `\t\tfor (j = i + 2;  j < ${size}; j++) {\r\n`;
-  result += `\t\t\te[i] ^= a[j]&b[${size} - j + i];\r\n`;
-  result += `\t\t}\r\n`;
-  result += `\t}\r\n`;
-
-  return result += '\r\n';
+  return result += '\r\n\r\n';
 };
 
 function generateResultVectorCalculation(preparedMatrix, size) {
@@ -81,16 +79,14 @@ function generateResultVectorCalculation(preparedMatrix, size) {
 };
 
 function generateMultiplicationResult(size) {
-  let result = '';
-
-  result += '\tunsigned int C = ';
+  let result = '\tunsigned int C = ';
   for (let i = 0; i < size; i++) {
     result += `c[${i}]${i !== size - 1 ? '^' : ';\r\n'}`;
   }
 
-  result += `\tprintf("%d\\r\\n", C);\r\n`
-  result += `\treturn C;\r\n`
-  result += `}`;
+  result += `\tprintf("%d\\r\\n", C);
+  return C;
+}`;
 
   return result += '\r\n';
 };
