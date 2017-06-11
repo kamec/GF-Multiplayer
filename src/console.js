@@ -16,9 +16,9 @@ const E_WRONG_ALG = 'Invalid algorithms name. Check supported section.';
   });
 
   program.version('0.1.0')
-    .description(`Default output directory: './tmp/'\r\n\r\n  Supported algorithms and languages: \r\n\t${getSupportedGenerators()}\r\n`)
+    .description(`Defaults:\r\n\tOutput directory:\t'./tmp/'\r\n\tFile name:\t\t'out'\r\n\tAlgorithm:\t\t'reyhani-masoleh'\r\n\tLanguage:\t\t'c_func'\r\n\r\n  Supported algorithms and languages: \r\n\t${getSupportedGenerators()}\r\n`)
     .option('-a, --algorithm <algorithm>', 'multiplier algorithm', 'reyhani-masoleh')
-    .option('-l, --language <language>', 'language for output code', 'c_def')
+    .option('-l, --language <language>', 'language for output code', 'c_func')
     .option('-n, --name <name>', 'name for output file', 'out')
     .option('-o, --out <absolute path>', 'path for output folder', DEFAULT_OUT)
     .option('-p, --polynomial <polynomial>', 'monic irreducible polynomial base 2 with big-endian notation. REQUIRED')

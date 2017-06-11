@@ -28,8 +28,8 @@ function generateSplittingArray(size) {
     result += `${BigInt(2).pow(i)}${i < size - 1 ? ', ' : ''}`;
   }
   result += `};
-  unsigned int a[${size}];
-  unsigned int b[${size}];`;
+    unsigned int a[${size}];
+    unsigned int b[${size}];`;
   return result += '\r\n';
 };
 
